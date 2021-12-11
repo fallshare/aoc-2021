@@ -67,17 +67,27 @@
     </url>
 
     <url>
-    	<loc>https://aoc-2021.netlify.com/generated/coder/mr-kaffee/generatedDays.html</loc>
-    	<lastmod>2021-12-11</lastmod>
-    </url>
-
-    <url>
     	<loc>https://aoc-2021.netlify.com/generated/coder/jindalabhishek1/generatedDays.html</loc>
     	<lastmod>2021-12-11</lastmod>
     </url>
 
     <url>
+    	<loc>https://aoc-2021.netlify.com/generated/coder/jamhocken/generatedDays.html</loc>
+    	<lastmod>2021-12-11</lastmod>
+    </url>
+
+    <url>
+    	<loc>https://aoc-2021.netlify.com/generated/coder/mr-kaffee/generatedDays.html</loc>
+    	<lastmod>2021-12-11</lastmod>
+    </url>
+
+    <url>
     	<loc>https://aoc-2021.netlify.com/generated/coder/dfriedenberger/generatedDays.html</loc>
+    	<lastmod>2021-12-11</lastmod>
+    </url>
+
+    <url>
+    	<loc>https://aoc-2021.netlify.com/generated/coder/aspik79/generatedDays.html</loc>
     	<lastmod>2021-12-11</lastmod>
     </url>
 
@@ -88,16 +98,6 @@
 
     <url>
     	<loc>https://aoc-2021.netlify.com/generated/coder/docToolchain/generatedDays.html</loc>
-    	<lastmod>2021-12-11</lastmod>
-    </url>
-
-    <url>
-    	<loc>https://aoc-2021.netlify.com/generated/coder/jamhocken/generatedDays.html</loc>
-    	<lastmod>2021-12-11</lastmod>
-    </url>
-
-    <url>
-    	<loc>https://aoc-2021.netlify.com/generated/coder/aspik79/generatedDays.html</loc>
     	<lastmod>2021-12-11</lastmod>
     </url>
 
@@ -117,17 +117,17 @@
     </url>
 
     <url>
+    	<loc>https://aoc-2021.netlify.com/rules/index.html</loc>
+    	<lastmod>2021-12-11</lastmod>
+    </url>
+
+    <url>
     	<loc>https://aoc-2021.netlify.com/solutions/byLanguage.html</loc>
     	<lastmod>2021-12-11</lastmod>
     </url>
 
     <url>
     	<loc>https://aoc-2021.netlify.com/solutions/byDay.html</loc>
-    	<lastmod>2021-12-11</lastmod>
-    </url>
-
-    <url>
-    	<loc>https://aoc-2021.netlify.com/rules/index.html</loc>
     	<lastmod>2021-12-11</lastmod>
     </url>
 
