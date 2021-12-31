@@ -151,6 +151,7 @@
 <ul class="sectlevel4">
 <li><a href="#_general_structure">General structure</a></li>
 <li><a href="#_run_solutions">Run Solutions</a></li>
+<li><a href="#_personal_challenges">Personal Challenges</a></li>
 <li><a href="#_run_all_solutions">Run all Solutions</a></li>
 </ul>
 </li>
@@ -384,7 +385,75 @@
 <li><a href="#_day_19_beacon_scanner">Day 19: Beacon Scanner</a>
 <ul class="sectlevel4">
 <li><a href="#_parts_1_2_2">Parts 1 &amp; 2</a></li>
+<li><a href="#_sanity_check">Sanity Check</a></li>
 <li><a href="#_tests_18">Tests</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_day_20_rust">Day 20: rust</a>
+<ul class="sectlevel3">
+<li><a href="#_day_20_trench_map">Day 20: Trench Map</a>
+<ul class="sectlevel4">
+<li><a href="#_parts_1_2_3">Parts 1 &amp; 2</a></li>
+<li><a href="#_tests_19">Tests</a></li>
+<li><a href="#day20-til">Today I learned</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_day_21_rust">Day 21: rust</a>
+<ul class="sectlevel3">
+<li><a href="#_day_21_dirac_dice">Day 21: Dirac Dice</a>
+<ul class="sectlevel4">
+<li><a href="#_part_1_14">Part 1</a></li>
+<li><a href="#_part_2_14">Part 2</a></li>
+<li><a href="#_tests_20">Tests</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_day_22_rust">Day 22: rust</a>
+<ul class="sectlevel3">
+<li><a href="#_day_22_reactor_reboot">Day 22: Reactor Reboot</a>
+<ul class="sectlevel4">
+<li><a href="#_solution_5">Solution</a></li>
+<li><a href="#_cuboids_implementation">Cuboids Implementation</a></li>
+<li><a href="#_tests_21">Tests</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_day_23_rust">Day 23: rust</a>
+<ul class="sectlevel3">
+<li><a href="#_day_23_amphipod">Day 23: Amphipod</a>
+<ul class="sectlevel4">
+<li><a href="#_part_1_15">Part 1</a></li>
+<li><a href="#_part_2_15">Part 2</a></li>
+<li><a href="#_implementation">Implementation</a></li>
+<li><a href="#_tests_22">Tests</a></li>
+<li><a href="#_today_i_learned_10">Today I learned</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_day_24_rust">Day 24: rust</a>
+<ul class="sectlevel3">
+<li><a href="#_day_24_arithmetic_logic_unit">Day 24: Arithmetic Logic Unit</a>
+<ul class="sectlevel4">
+<li><a href="#_solution_6">Solution</a></li>
+<li><a href="#_traits_index_and_implementation">Traits, Index and implementation</a></li>
+<li><a href="#_tests_23">Tests</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_day_25_rust">Day 25: rust</a>
+<ul class="sectlevel3">
+<li><a href="#_day_25_sea_cucumber">Day 25: Sea Cucumber</a>
+<ul class="sectlevel4">
+<li><a href="#_solution_7">Solution</a></li>
+<li><a href="#_tests_24">Tests</a></li>
 </ul>
 </li>
 </ul>
@@ -448,50 +517,86 @@ development, e.g., based on the examples given in the puzzles.</p>
 <div class="sect4">
 <h5 id="_run_solutions"><a class="anchor" href="#_run_solutions"></a><a class="link" href="#_run_solutions">Run Solutions</a></h5>
 <div class="paragraph">
-<p>Run solution with <code>cargo run</code> (or <code>cargo run --release</code> to see the effect of compiler optimization)</p>
+<p>Run solution with <code>cargo run --release</code></p>
 </div>
 <div class="paragraph">
-<p>Run tests with <code>cargo test</code></p>
+<p>Run tests with <code>cargo test</code> or <code>cargo test --release</code></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_personal_challenges"><a class="anchor" href="#_personal_challenges"></a><a class="link" href="#_personal_challenges">Personal Challenges</a></h5>
+<div class="paragraph">
+<p>I wanted to keep the overall solution time as small as possible. Up until day 22, I thought I could end up below 500ms. Then came day 23 where I started with a solution time of several seconds for part 1 and infinite solution time for part 2 on my machine. After several iterations, I finally came down to ~300ms. With this and some build optimizations, my overall solution time is below 700ms on my machine:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Total time for 25 days: 666.6676ms (26.666704ms per day)</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>My second challange was to only use out of the box Rust features. This one I almost achieved. Again day23 is a slight exception. I use out of the box nightly Rust for this one to be able to use the method <code>BTreeSet::pop_first</code></p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_run_all_solutions"><a class="anchor" href="#_run_all_solutions"></a><a class="link" href="#_run_all_solutions">Run all Solutions</a></h5>
 <div class="paragraph">
-<p>My <code>day00</code> solution this year will run all my solutions. At this time, it looks as follows</p>
+<p>My <code>day00</code> solution this year will run all my solutions. The code looks as follows:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">pub fn solve() {
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">const DAYS: &amp;[fn()] = &amp;[
+    day00::solve,
+    day01::solve,
+    day02::solve,
+    day03::solve,
+    day04::solve,
+    day05::solve,
+    day06::solve,
+    day07::solve,
+    day08::solve,
+    day09::solve,
+    day10::solve,
+    day11::solve,
+    day12::solve,
+    day13::solve,
+    day14::solve,
+    day15::solve,
+    day16::solve,
+    day17::solve,
+    day18::solve,
+    day19::solve,
+    day20::solve,
+    day21::solve,
+    day22::solve,
+    day23::solve,
+    day24::solve,
+    day25::solve,
+];
+
+pub fn solve(indices: impl Iterator&lt;Item = usize&gt;) {
     let timer = Instant::now();
-    day00::solve();
-    day01::solve();
-    day02::solve();
-    day03::solve();
-    day04::solve();
-    day05::solve();
-    day06::solve();
-    day07::solve();
-    day08::solve();
-    day09::solve();
-    day10::solve();
-    day11::solve();
-    day12::solve();
-    day13::solve();
-    day14::solve();
-    day15::solve();
-    day16::solve();
-    day17::solve();
-    day18::solve();
-    day19::solve();
-    // day20::solve();
-    // day21::solve();
-    // day22::solve();
-    // day23::solve();
-    // day24::solve();
-    // day25::solve();
-    println!("Total time: {:?}", timer.elapsed());
+
+    let mut count = 0;
+    for idx in indices {
+        DAYS[idx]();
+        count += 1;
+    }
+
+    let elapsed = timer.elapsed();
+    println!(
+        "Total time for {} days: {:?} ({:?} per day)",
+        count,
+        elapsed,
+        elapsed.checked_div(count).unwrap()
+    );
 }</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>To run all solutions, use <code>cargo run --release -- --from 1 --to 25</code>. The command line options <code>--from &lt;day&gt;</code> and <code>--to &lt;day&gt;</code> specify the range of days to run (bounds included). The default is to run all days from 1 to 25 (inclusive). If a day is not yet implemented, the program panics.</p>
+</div>
+<div class="paragraph">
+<p>Because day23 uses the unstable function <code>BTreeSet::pop_first</code>, this will only compile on the rust nightly channel. If you want to run all the other solutions, use <code>cargo run --release --no-default-features -- --from 1 --to 25</code>.</p>
 </div>
 <a id="day00" />
 </div>
@@ -4979,7 +5084,23 @@ mod tests {
 <p><a href="https://rust-lang.org">Rust</a> solution to <a href="https://adventofcode.com/2021/day/19">AoC|2021|19</a>.</p>
 </div>
 <div class="paragraph">
-<p>The solution for today&#8217;s puzzle takes ~10 seconds to complete in my current implementation (optimized from 30 seconds in the first version)! Currently, I have no idea how to simplify.</p>
+<p>The solution for today&#8217;s puzzle takes ~180ms to complete in my current implementation (optimized from 30 seconds in the first version to ~10 and ~3 seconds in intermediate steps).</p>
+</div>
+<div class="paragraph">
+<p>The optimizations to get down to three seconds include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>check for the bounding box (scanner range) before looking up whether a specific beacon exists in another set</p>
+</li>
+<li>
+<p>use a kind of breadth first search for checking overlaps: start with first set, enqueue all sets which overlap with the first set (set <code>settled = 1</code>) and continue to settle furhter sets that overlap with sets from the queue.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The final optimization to achieve solution times below 1s are taken from <a href="https://github.com/mogron">[Moritz Gronbach</a>: The distances between beacons are invariant under coordinate transformations. So if two scanners have overlapping ranges, they must have at least 12 beacons which have to same distances to each other. Comparing those distances is much cheaper than looping through all the transformations and comparing coordinates.</p>
 </div>
 <div class="sect4">
 <h5 id="_parts_1_2_2"><a class="anchor" href="#_parts_1_2_2"></a><a class="link" href="#_parts_1_2_2">Parts 1 &amp; 2</a></h5>
@@ -5020,43 +5141,43 @@ impl CoordMath for Coord {
 </div>
 </div>
 <div class="paragraph">
-<p>The input is read as follows:</p>
+<p>The input is read as follows (create sets of beacons and maps of pairwise distances):</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">/// parse the input into a vector of scanners
 ///
 /// each scanner is a hash set of coordinates in the scanner's local
-/// coordinate system
-pub fn parse(content: &amp;str) -&gt; Vec&lt;HashSet&lt;Coord&gt;&gt; {
-    let mut scanners = Vec::new();
+/// coordinate system and a hashmap of pairwise distances as keys and number of
+/// occurance of this distance as value
+pub fn parse(content: &amp;str) -&gt; Vec&lt;(HashSet&lt;Coord&gt;, Coord, HashMap&lt;usize, usize&gt;)&gt; {
+    let mut scanners: Vec&lt;(HashSet&lt;Coord&gt;, Coord, HashMap&lt;usize, usize&gt;)&gt; = Vec::new();
 
     let mut beacons = HashSet::new();
-    for line in content.lines() {
-        let line = line.trim();
-        if line.len() == 0 {
-            continue;
-        } else if line.starts_with("---") {
+    let mut distances = HashMap::new();
+    for line in content.lines().map(|l| l.trim()).filter(|l| l.len() &gt; 0) {
+        if line.starts_with("---") {
             if !beacons.is_empty() {
-                scanners.push(beacons);
+                scanners.push((beacons, (0, 0, 0), distances));
                 beacons = HashSet::new();
+                distances = HashMap::new();
             }
         } else {
-            let mut parts = line
-                .trim()
-                .split(',')
-                .map(|s| s.parse().expect("Could not parse."));
-            let p = (
-                parts.next().expect("No x"),
-                parts.next().expect("No y"),
-                parts.next().expect("No z"),
+            let mut parts = line.split(',');
+            let b_new = (
+                parts.next().unwrap().parse().unwrap(),
+                parts.next().unwrap().parse().unwrap(),
+                parts.next().unwrap().parse().unwrap(),
             );
-            assert!(parts.next().is_none(), "More than three coordinates");
-            beacons.insert(p);
+            for b_old in &amp;beacons {
+                // update pairwise distances
+                *distances.entry(b_old.sub(&amp;b_new).abs()).or_insert(0) += 1;
+            }
+            beacons.insert(b_new);
         }
     }
     if !beacons.is_empty() {
-        scanners.push(beacons);
+        scanners.push((beacons, (0, 0, 0), distances));
     }
 
     scanners
@@ -5064,12 +5185,12 @@ pub fn parse(content: &amp;str) -&gt; Vec&lt;HashSet&lt;Coord&gt;&gt; {
 </div>
 </div>
 <div class="paragraph">
-<p>Then I define all 24 possible transformations</p>
+<p>Then I define all 24 possible transformations with inverse transformations.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">/// transformation functions for all 24 possible transformations
-const TRAFOS: [fn(Coord) -&gt; Coord; 24] = [
+pub const TRAFOS: [fn(Coord) -&gt; Coord; 24] = [
     |(x, y, z)| (x, y, z),
     |(x, y, z)| (x, -y, -z),
     |(x, y, z)| (x, z, -y),
@@ -5094,49 +5215,116 @@ const TRAFOS: [fn(Coord) -&gt; Coord; 24] = [
     |(x, y, z)| (-z, -x, y),
     |(x, y, z)| (-z, y, x),
     |(x, y, z)| (-z, -y, -x),
+];
+
+/// inverse transformation functions for all 24 possible transformations
+pub const INV_TRAFOS: [fn(Coord) -&gt; Coord; 24] = [
+    |(x, y, z)| (x, y, z),
+    |(x, y, z)| (x, -y, -z),
+    |(x, y, z)| (x, -z, y),
+    |(x, y, z)| (x, z, -y),
+    |(x, y, z)| (-x, y, -z),
+    |(x, y, z)| (-x, -y, z),
+    |(x, y, z)| (-x, z, y),
+    |(x, y, z)| (-x, -z, -y),
+    |(x, y, z)| (y, x, -z),
+    |(x, y, z)| (-y, x, z),
+    |(x, y, z)| (z, x, y),
+    |(x, y, z)| (-z, x, -y),
+    |(x, y, z)| (y, -x, z),
+    |(x, y, z)| (-y, -x, -z),
+    |(x, y, z)| (-z, -x, y),
+    |(x, y, z)| (z, -x, -y),
+    |(x, y, z)| (y, z, x),
+    |(x, y, z)| (-y, -z, x),
+    |(x, y, z)| (-z, y, x),
+    |(x, y, z)| (z, -y, x),
+    |(x, y, z)| (y, -z, -x),
+    |(x, y, z)| (-y, z, -x),
+    |(x, y, z)| (z, y, -x),
+    |(x, y, z)| (-z, -y, -x),
 ];</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>which are used to figure out whether two scanner&#8217;s ranges (or two sets of beacons in their own coordinate systems) overlap:</p>
+<p>The transformations are used to figure out whether two scanner&#8217;s ranges (two sets of beacons in their own coordinate systems) overlap:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">/// check whether two sets of beacons overlap
 ///
-/// find the transformation ``t`` for the second set, and a distance ``d`` of the references,
-/// so that at least ``threshold`` pairs of beacons (b1, b2) in the two sets exist that satisfy
-/// ``t(b2) - d = b1``
+/// find the transformation ``t`` for the ``beacons_check`` set, and the ``center`` position
+/// of the corresponding scanner in the ``beacons_settled``'s coordinate system so that at
+/// least ``threshold`` pairs of beacons (b1, b2) in the two sets exist that satisfy
+/// ``t(b2) - center = b1``
+///
+/// return the transformation ``t`` and the ``center`` position
 pub fn check_overlap(
-    beacons1: &amp;HashSet&lt;Coord&gt;,
-    beacons2: &amp;HashSet&lt;Coord&gt;,
+    (beacons_settled, _center_settled, distances_settled): &amp;(
+        HashSet&lt;Coord&gt;,
+        Coord,
+        HashMap&lt;usize, usize&gt;,
+    ),
+    (beacons_check, _center_check, distances_check): &amp;(
+        HashSet&lt;Coord&gt;,
+        Coord,
+        HashMap&lt;usize, usize&gt;,
+    ),
     threshold: usize,
 ) -&gt; Option&lt;(fn(Coord) -&gt; Coord, Coord)&gt; {
-    for t in TRAFOS {
-        // find all beacons with the same distance as b1[k1] to b2[k2]
-        for b1 in beacons1 {
-            for b2 in beacons2 {
-                // d = t(b2) - b1
-                // =&gt; b1 = t(b2) - d
-                let d = t(*b2).sub(b1);
+    // first check pairwise distances (idea taken from Moritz Gronbach, https://github.com/mogron)
+    let mut common_distances = 0;
+    for (distance, count) in distances_settled {
+        common_distances += cmp::min(distances_check.get(distance).unwrap_or(&amp;0), count);
+        if common_distances &gt;= threshold * (threshold - 1) / 2 {
+            break;
+        }
+    }
+    if common_distances &lt; threshold * (threshold - 1) / 2 {
+        return None; // not enough common distances, no overlap possible
+    }
 
+    for t_idx in 0..24 {
+        // find all beacons with the same distance as b1[k1] to b2[k2]
+        for b1 in beacons_settled {
+            for b2 in beacons_check {
+                // d = b1 - t(b2)
+                // =&gt; b1 = t(b2) + d
+                // =&gt; b2 = t^-1(b1 - d)
+                let d = b1.sub(&amp;TRAFOS[t_idx](*b2));
+
+                // filter for scanner range prior to lookup
+                // settled beacons are in transformed coordinate (scanner is not necessarily at origin)
+                // =&gt; need to check range in beacons_check via inverse transform
+                // (possible optimization: use actual bounding box of beacons)
                 let mut count = 0;
-                for _ in beacons2
+                for _ in beacons_settled
                     .iter()
-                    .map(|b2| t(*b2).sub(&amp;d))
-                    .filter(|b2| beacons1.contains(b2))
+                    .map(|b1| INV_TRAFOS[t_idx](b1.sub(&amp;d)))
+                    .filter(|(x, y, z)| RANGE.contains(x) &amp;&amp; RANGE.contains(y) &amp;&amp; RANGE.contains(z))
+                    .filter(|b1| beacons_check.contains(b1))
                 {
-                    // don't use iter.count() to avoid checking more elements onece threshold is reached
+                    // don't use iter.count() to avoid checking more elements once threshold is reached
                     count += 1;
                     if count &gt;= threshold {
-                        return Some((t, d));
+                        if cfg!(feature = "sanity-check") {
+                            sanity_check(
+                                beacons_settled,
+                                _center_settled,
+                                beacons_check,
+                                _center_check,
+                                t_idx,
+                                d,
+                            );
+                        }
+                        return Some((TRAFOS[t_idx], d));
                     }
                 }
             }
         }
     }
 
-    None
+    None // no solution found
 }</code></pre>
 </div>
 </div>
@@ -5145,61 +5333,129 @@ pub fn check_overlap(
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">/// check whether any unsettled scanner can be settled given the settled beacons
-///
-/// if so, return the index of that scanner, the beacons in the coordinates of the settled beacons, and the reference distance
-pub fn settle_any(
-    beacons: &amp;HashSet&lt;Coord&gt;,
-    scanners: &amp;[HashSet&lt;Coord&gt;],
-    settled: &amp;[bool],
-) -&gt; Option&lt;(usize, Vec&lt;Coord&gt;, Coord)&gt; {
-    for (k2, s2) in scanners.iter().enumerate().filter(|(k, _)| !settled[*k]) {
-        if let Some((t, d)) = check_overlap(&amp;beacons, s2, 12) {
-            return Some((k2, s2.iter().map(|p| t(*p).sub(&amp;d)).collect(), d));
-        }
-    }
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">/// determine number of unique beacons and max Manhatten distance between
+/// any two scanners
+pub fn solution_1_2(scanners: &amp;[(HashSet&lt;Coord&gt;, Coord, HashMap&lt;usize, usize&gt;)]) -&gt; (usize, usize) {
+    // use my own mutable copy of the scanners
+    let mut scanners = scanners.to_owned();
 
-    None
-}
-
-/// determine number of unique beacons
-pub fn solution_1_2(scanners: &amp;[HashSet&lt;Coord&gt;]) -&gt; (usize, usize) {
     // holds flags for settled scanners
-    let mut settled = vec![false; scanners.len()];
-    settled[0] = true; // start with first scanner settled
+    // 0 - not settled
+    // 1 - settled, enqueued for furhter extension of settled scanners
+    // 2 - fully processed (dequeued)
+    let mut settled = vec![0; scanners.len()];
+    settled[0] = 1u8; // start with first scanner settled
 
-    // holds distances from all scanners to first scanner.
+    let mut transformed = Vec::with_capacity(scanners.len());
+    transformed.push(0usize);
+
     // Used to calculate largest distance between any two scanners.
-    let mut deltas = Vec::with_capacity(scanners.len());
-    deltas.push((0, 0, 0));
     let mut max_dist = 0;
 
     // holds all settled beacons. Start with beacons in range of scanner 1
-    let mut beacons: HashSet&lt;Coord&gt; = scanners[0].clone();
+    let mut beacons: HashSet&lt;Coord&gt; = scanners[0].0.clone();
 
-    // while any scanner has been settled
-    while let Some((k, iter, d)) = settle_any(&amp;beacons, &amp;scanners, &amp;settled) {
-        // update flag
-        settled[k] = true;
-        // add beacons to settled beacons
-        beacons.extend(iter);
+    while let Some(k1) = settled.iter().position(|s| s == &amp;1) {
+        for k2 in 0..settled.len() {
+            if settled[k2] != 0 {
+                continue; // already settled
+            }
 
-        // update max distance
-        for d0 in &amp;deltas {
-            let dist = d.sub(&amp;d0).abs();
-            if dist &gt; max_dist {
-                max_dist = dist;
+            if let Some((t, d)) = check_overlap(&amp;scanners[k1], &amp;scanners[k2], 12) {
+                // update scanner to settled coordinates
+                scanners[k2].0 = scanners[k2].0.iter().map(|b| t(*b).add(&amp;d)).collect();
+                scanners[k2].1 = t(scanners[k2].1).add(&amp;d);
+
+                // add beacons to unique set
+                beacons.extend(&amp;scanners[k2].0);
+
+                // update settled to 1 = enqueue
+                settled[k2] = 1;
+
+                // update max distance
+                for k_t in &amp;transformed {
+                    let dist = scanners[k2].1.sub(&amp;scanners[*k_t].1).abs();
+                    if dist &gt; max_dist {
+                        max_dist = dist;
+                    }
+                }
+
+                transformed.push(k2);
             }
         }
 
-        // save distance to first scanner
-        deltas.push(d);
+        // update settled to 2 = fully processed
+        settled[k1] = 2;
     }
 
     // return number of beacons and largest distance between any two scanners
     (beacons.len(), max_dist)
 }</code></pre>
 </div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_sanity_check"><a class="anchor" href="#_sanity_check"></a><a class="link" href="#_sanity_check">Sanity Check</a></h5>
+<div class="paragraph">
+<p>I implemented a sanity check for overlapping scanner regions as follows (see comment for details):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">/// sanity check for overlapping scanner regions
+///
+/// for all beacons seen by scanner 1 / 2, check whether they are also seen by scanner 2 / 1
+/// if and only if they are in range of scanner 2 / 1
+///
+/// # Panics
+/// if sanity check fails
+pub fn sanity_check(
+    beacons1: &amp;HashSet&lt;Coord&gt;,
+    center1: &amp;Coord,
+    beacons2: &amp;HashSet&lt;Coord&gt;,
+    center2: &amp;Coord,
+    t_idx: usize,
+    d: Coord,
+) {
+    // =&gt; b1 = t(b2) + d
+    // =&gt; b2 = t^-1(b1 - d)
+
+    // transform center2 in 1's coordinates
+    let center2 = TRAFOS[t_idx](*center2).add(&amp;d);
+
+    for b1 in beacons1 {
+        // distance vec
+        let (dx, dy, dz) = center2.sub(b1);
+
+        let in_range = RANGE.contains(&amp;dx) &amp;&amp; RANGE.contains(&amp;dy) &amp;&amp; RANGE.contains(&amp;dz);
+        // transform in 2's coordinates for check
+        let contained = beacons2.contains(&amp;INV_TRAFOS[t_idx](b1.sub(&amp;d)));
+        if in_range != contained {
+            panic!(
+                "{:?} is in range of 2nd scanner at {:?}, but not contained in set",
+                b1, center2
+            );
+        }
+    }
+
+    // loop over beacons seen by scanner 2 in 1's coordinates
+    for b2 in beacons2.iter().map(|b2| TRAFOS[t_idx](*b2).add(&amp;d)) {
+        // distance vec
+        let (dx, dy, dz) = center1.sub(&amp;b2);
+
+        let in_range = RANGE.contains(&amp;dx) &amp;&amp; RANGE.contains(&amp;dy) &amp;&amp; RANGE.contains(&amp;dz);
+        let contained = beacons1.contains(&amp;b2);
+        if in_range != contained {
+            panic!(
+                "{:?} is in range of 1st scanner at {:?}, but not contained in set",
+                b2, center1
+            );
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By default, the sanity check is switched off. It is enabled with the feature <code>sanity-check</code>, i.e., if the puzzle is run with <code>cargo run --release --features sanity-check</code>. For my puzzle input &amp; the examples, the sanity check passes.</p>
 </div>
 </div>
 <div class="sect4">
@@ -5216,8 +5472,8 @@ mod tests {
     fn test_parse() {
         let scanners = parse(CONTENT);
         assert_eq!(5, scanners.len());
-        assert!(scanners[2].contains(&amp;(-644, 584, -595)));
-        assert!(scanners[4].contains(&amp;(30, -46, -14)));
+        assert!(scanners[2].0.contains(&amp;(-644, 584, -595)));
+        assert!(scanners[4].0.contains(&amp;(30, -46, -14)));
     }
 
     #[test]
@@ -5227,14 +5483,2356 @@ mod tests {
         assert!(r.is_some(), "No transformation found");
         let (t, d) = r.unwrap();
 
-        assert_eq!((-68, 1246, 43), d);
-        assert_eq!((-618, -824, -621), t((686, 422, 578)).sub(&amp;d));
+        assert_eq!((68, -1246, -43), d);
+        assert_eq!((-618, -824, -621), t((686, 422, 578)).add(&amp;d));
     }
 
     #[test]
     fn test_solution_1_2() {
         let scanners = parse(CONTENT);
         assert_eq!((79, 3621), solution_1_2(&amp;scanners));
+    }
+
+    #[test]
+    fn test_trafos() {
+        for k in 0..24 {
+            assert_eq!(
+                (1, 2, 3),
+                TRAFOS[k](INV_TRAFOS[k]((1, 2, 3))),
+                "Failed trafo after inverse at {}",
+                k
+            );
+            assert_eq!(
+                (1, 2, 3),
+                INV_TRAFOS[k](TRAFOS[k]((1, 2, 3))),
+                "Failed inverse after trafo at {}",
+                k
+            );
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<a id="day20" />
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_day_20_rust"><a class="anchor" href="#_day_20_rust"></a><a class="link" href="#_day_20_rust">Day 20: rust</a></h3>
+<div class="sect3">
+<h4 id="_day_20_trench_map"><a class="anchor" href="#_day_20_trench_map"></a><a class="link" href="#_day_20_trench_map">Day 20: Trench Map</a></h4>
+<div class="paragraph">
+<p><a href="https://rust-lang.org">Rust</a> solution to <a href="https://adventofcode.com/2021/day/20">AoC|2021|20</a>.</p>
+</div>
+<div class="paragraph">
+<p>There is essentially one trap in today&#8217;s puzzle hidden in the instruction <em>&#8230;&#8203; being careful to account for the infinite size of the images</em>: while in the test data, the algorithm starts with <code>.</code>, my (and I guess everyone else&#8217;s) puzzle input&#8217;s algorithm starts with <code>#</code>. Hence, after applying the algorithm once, all pixels extending forever in any direction are set. To handle this, I store the negative of an image in that case. All images produced by odd numbers of update steps will actually be negative images.</p>
+</div>
+<div class="sect4">
+<h5 id="_parts_1_2_3"><a class="anchor" href="#_parts_1_2_3"></a><a class="link" href="#_parts_1_2_3">Parts 1 &amp; 2</a></h5>
+<div class="paragraph">
+<p>I store images in an <code>Image</code> structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">/// structure storing image data
+///
+/// * ``data`` is a list of all set pixels
+/// * ``bbox = (x_min, x_max, y_min, y_max)`` is the bounding box of set pixels
+///   with exclusive upper bounds
+/// * ``neg`` is a flag indicating whether pixels are inverted (i.e., this is a
+///   negative image)
+#[derive(Debug, Clone)]
+pub struct Image {
+    pub data: Vec&lt;(isize, isize)&gt;,
+    pub bbox: (isize, isize, isize, isize),
+    pub neg: bool,
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>I use this to parse the input into an algorithm (vector of booleans) and an image:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">/// parse content in algorithm (first line) and image (other non blank lines)
+pub fn parse(content: &amp;str) -&gt; (Vec&lt;bool&gt;, Image) {
+    let mut lines = content.lines();
+    let algo = lines
+        .next()
+        .expect("No algo")
+        .trim()
+        .chars()
+        .map(|c| c == '#')
+        .collect::&lt;Vec&lt;_&gt;&gt;();
+
+    // if algo[0] is set, all pixels extendig in any direction are lit after the first step
+    // to ensure a finite number of pixels is lit after an odd number of steps, the last element
+    // of the algorithm must not be set
+    assert!(
+        !algo[0] || !algo[algo.len() - 1],
+        "Algorithm will lit infinitely many pixels forever"
+    );
+
+    let mut data = Vec::new();
+    let mut bbox = (isize::MAX, isize::MAX, isize::MIN, isize::MIN);
+    let neg = false;
+    for (y, line) in lines
+        .map(|line| line.trim())
+        .filter(|line| line.len() &gt; 0)
+        .enumerate()
+    {
+        for (x, _) in line.chars().enumerate().filter(|(_, c)| c == &amp;'#') {
+            data.push((x as isize, y as isize));
+            bbox.0 = cmp::min(bbox.0, x as isize);
+            bbox.1 = cmp::min(bbox.1, y as isize);
+            bbox.2 = cmp::max(bbox.2, x as isize + 1);
+            bbox.3 = cmp::max(bbox.3, y as isize + 1);
+        }
+    }
+
+    (algo, Image { data, bbox, neg })
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The main part of the solution is a function that performs single update steps (see <a href="#day20-til">Today I learned</a> for an explanation on why I create the intermediate <code>grid</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">/// perform single update step
+///
+/// create a new image; if ``algo[0]`` is set, the ``neg`` flag of the image will flip
+pub fn update_step(algo: &amp;[bool], image: &amp;Image) -&gt; Image {
+    let mut data = Vec::with_capacity(image.data.len() * 2);
+    let mut bbox = (isize::MAX, isize::MAX, isize::MIN, isize::MIN);
+    let neg = algo[0] ^ image.neg;
+
+    // it is cheaper to put everything in a grid compared to looking up values repeatedly
+    // in a set or map
+    // make the grid big enough to not have to check out of bounds in loop later on
+    let (x_mn, y_mn, x_mx, y_mx) = image.bbox;
+    let x0 = x_mn - 2;
+    let y0 = y_mn - 2;
+    let w = (x_mx - x_mn) as usize + 4;
+    let h = (y_mx - y_mn) as usize + 4;
+    let mut grid = vec![false; w * h];
+    for (x, y) in &amp;image.data {
+        grid[(x - x0) as usize + w * (y - y0) as usize] = true;
+    }
+
+    for x in x_mn - 1..x_mx + 1 {
+        for y in y_mn - 1..y_mx + 1 {
+            let k = (x - x0) as usize + w * (y - y0) as usize;
+            let mut idx = 0;
+            for j in [
+                k - w - 1,
+                k - w,
+                k - w + 1,
+                k - 1,
+                k,
+                k + 1,
+                k + w - 1,
+                k + w,
+                k + w + 1,
+            ] {
+                idx = idx &lt;&lt; 1 | (image.neg ^ grid[j]) as usize;
+            }
+            if neg ^ algo[idx] {
+                data.push((x, y));
+                bbox.0 = cmp::min(bbox.0, x);
+                bbox.1 = cmp::min(bbox.1, y);
+                bbox.2 = cmp::max(bbox.2, x + 1);
+                bbox.3 = cmp::max(bbox.3, y + 1);
+            }
+        }
+    }
+
+    Image { data, bbox, neg }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The solution is calculated as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">pub fn update_steps(algo: &amp;[bool], image: &amp;Image, steps: usize) -&gt; Image {
+    assert!(steps &gt;= 1, "Cannot perform less than one update step");
+    let mut image = update_step(&amp;algo, image);
+    for _ in 1..steps {
+        image = update_step(algo, &amp;image);
+    }
+    image
+}
+
+pub fn solution_1(algo: &amp;[bool], image: &amp;Image) -&gt; usize {
+    update_steps(algo, image, 2).data.len()
+}
+pub fn solution_2(algo: &amp;[bool], image: &amp;Image) -&gt; usize {
+    update_steps(algo, image, 50).data.len()
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_tests_19"><a class="anchor" href="#_tests_19"></a><a class="link" href="#_tests_19">Tests</a></h5>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const CONTENT: &amp;str =
+        "..#.#..#####.#.#.#.###.##.....###.##.#..###.####..#####..#....#..#..##..##\
+        #..######.###...####..#..#####..##..#.#####...##.#.#..#.##..#.#......#.###\
+        .######.###.####...#.##.##..#..#..#####.....#.#....###..#.##......#.....#.\
+        .#..#..##..#...##.######.####.####.#.#...#.......#..#.#.#...####.##.#.....\
+        .#..#...##.#.##..#...##.#.##..###.#......#.#.......#.#.#.####.###.##...#..\
+        ...####.#..#..#.##.#....##..#.####....##...##..#...#......#.#.......#.....\
+        ..##..####..#...#.#.#...##..#.#..###..#####........#..####......#..#\n\
+        \
+        #..#.\n\
+        #....\n\
+        ##..#\n\
+        ..#..\n\
+        ..###";
+
+    #[test]
+    fn test_parse() {
+        let (algo, image) = parse(CONTENT);
+        assert_eq!(512, algo.len());
+        assert_eq!((0, 0, 5, 5), image.bbox);
+        assert_eq!(
+            Vec::from([
+                (0, 0),
+                (3, 0),
+                (0, 1),
+                (0, 2),
+                (1, 2),
+                (4, 2),
+                (2, 3),
+                (2, 4),
+                (3, 4),
+                (4, 4)
+            ]),
+            image.data
+        );
+        assert!(!image.neg);
+    }
+
+    #[test]
+    fn test_update_steps() {
+        let (algo, image) = parse(CONTENT);
+        assert_eq!(35, update_steps(&amp;algo, &amp;image, 2).data.len());
+        assert_eq!(3_351, update_steps(&amp;algo, &amp;image, 50).data.len());
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="day20-til"><a class="anchor" href="#day20-til"></a><a class="link" href="#day20-til">Today I learned</a></h5>
+<div class="paragraph">
+<p>Today I learned a lot about performance.</p>
+</div>
+<div class="paragraph">
+<p>In my first version, I stored the lit pixels of the image in a hash set with <code>HashSet::contains</code> calls in the nested loop in my <code>update_step</code> function. Building a <code>grid</code> for direct lookup and replacing the hash set by a vector reduced the runtime for my solution (both parts) from ~500ms to ~25ms by a factor of 20! Pretty impressive.</p>
+</div>
+<a id="day21" />
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_day_21_rust"><a class="anchor" href="#_day_21_rust"></a><a class="link" href="#_day_21_rust">Day 21: rust</a></h3>
+<div class="sect3">
+<h4 id="_day_21_dirac_dice"><a class="anchor" href="#_day_21_dirac_dice"></a><a class="link" href="#_day_21_dirac_dice">Day 21: Dirac Dice</a></h4>
+<div class="paragraph">
+<p><a href="https://rust-lang.org">Rust</a> solution to <a href="https://adventofcode.com/2021/day/21">AoC|2021|21</a>.</p>
+</div>
+<div class="sect4">
+<h5 id="_part_1_14"><a class="anchor" href="#_part_1_14"></a><a class="link" href="#_part_1_14">Part 1</a></h5>
+<div class="paragraph">
+<p>Part 1 is pretty straight forward:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">/// play with a deterministic dice, winning threshold: 1000
+///
+/// return the looser's score times the number the dice was thrown
+pub fn solution_1((mut p1, mut p2): (usize, usize)) -&gt; usize {
+    let mut s1 = 0;
+    let mut s2 = 0;
+
+    let mut dice = 0;
+
+    let mut t = true;
+    while s1 &lt; 1000 &amp;&amp; s2 &lt; 1000 {
+        if t {
+            p1 = (p1 + 3 * dice + 6 - 1) % 10 + 1;
+            s1 += p1;
+        } else {
+            p2 = (p2 + 3 * dice + 6 - 1) % 10 + 1;
+            s2 += p2;
+        }
+
+        dice += 3;
+        t = !t;
+    }
+
+    dice * cmp::min(s1, s2)
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_part_2_14"><a class="anchor" href="#_part_2_14"></a><a class="link" href="#_part_2_14">Part 2</a></h5>
+<div class="paragraph">
+<p>For part 2, my first attempt was to use a depth first traversal through play states. I push play states with multiplicities on a stack.</p>
+</div>
+<div class="paragraph">
+<p>Each state popped from the stack results in 7 new states for the seven different outcomes of throwing a 3-sided dice three times: (1 x 3, 3 x 4, 6 x 5, 7 x 6, 6 x 7, 3 x 8, 1 x 9).</p>
+</div>
+<div class="paragraph">
+<p>If a state is a win for either player, the win counter is increased. Otherwise the new state with the new multiplicity is pushed to the stack.</p>
+</div>
+<div class="paragraph">
+<p>I came up with the idea quite quickly. Still took some time to finish part 2 because of a stupid bug: I updated position and score for the 2nd, 3rd, &#8230;&#8203; outcome of throwing a dice not based on the current state but based on the 1st, 2nd, &#8230;&#8203; outcome of throwing a dice&#8230;&#8203;</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">/// 7 possible outcomes with three dice
+///
+/// * 3 - 1: (1 1 1)
+/// * 4 - 3: (1 1 2) (1 2 1) (2 1 1)
+/// * 5 - 6: (1 1 3) (1 2 2) (1 3 1) (2 1 2) (2 2 1) (3 1 1)
+/// * 6 - 7: (1 2 3) (1 3 2) (2 1 3) (2 2 2) (2 3 1) (3 1 2) (3 2 1)
+/// * 7 - 6: (1 3 3) (2 2 3) (2 3 2) (3 1 3) (3 2 2) (3 3 1)
+/// * 8 - 3: (2 3 3) (3 2 3) (3 3 2)
+/// * 9 - 1: (3 3 3)
+pub const DICE_MULTS: [(usize, usize); 7] =
+    [(3, 1), (4, 3), (5, 6), (6, 7), (7, 6), (8, 3), (9, 1)];
+
+#[cfg(feature = "stack")]
+/// play with dirac quantum dice (stack based)
+///
+/// return the number of universes won by the player who wins more often
+pub fn solution_2((p1, p2): (usize, usize)) -&gt; usize {
+    // push states with multiplicty on stack
+    // since I push to the end and pop from the end, this is depth first search
+    let mut stack = Vec::new();
+    stack.push((p1, p2, 0, 0, true, 1));
+
+    // win counts
+    let mut w1 = 0;
+    let mut w2 = 0;
+
+    // while there are unprocessed states
+    while let Some((p1, p2, s1, s2, t, mult)) = stack.pop() {
+        // loop over dice outcomes with multiplicity
+        for (v, n) in DICE_MULTS {
+            if t {
+                // player 1's turn
+                // update position and score
+                let p1_upd = (p1 + v - 1) % 10 + 1;
+                let s1_upd = s1 + p1_upd;
+                if s1_upd &gt;= 21 {
+                    // win
+                    w1 += n * mult;
+                } else {
+                    // continue to play later
+                    stack.push((p1_upd, p2, s1_upd, s2, false, n * mult));
+                }
+            } else {
+                // player 2's turn
+                // update position and score
+                let p2_upd = (p2 + v - 1) % 10 + 1;
+                let s2_upd = s2 + p2_upd;
+                if s2_upd &gt;= 21 {
+                    // win
+                    w2 += n * mult;
+                } else {
+                    // continue to play later
+                    stack.push((p1, p2_upd, s1, s2_upd, true, n * mult));
+                }
+            }
+        }
+    }
+
+    cmp::max(w1, w2)
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Looking at the solution a bit closer, I figured out, that there are a total of 88200 different play states possible (10 positions per player times 21 scores per player times 2 because for each positions / scores it might be player 1&#8217;s or player 2&#8217;s turn). Yet, my stack based solution processes ~17 million items from the stack, i.e., on average, each state is pushed to the stack more than 200 times. There seems to be potential for optimization.</p>
+</div>
+<div class="paragraph">
+<p>I created a second solution which is based on a flat list of multiplicities for every possible state. I process each state, sorted by the sum of the scores of both players. Because the total score increases in every round played, I am sure that a state processed once will never occur again. Here is my second solution:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">#[cfg(not(feature = "stack"))]
+/// play with dirac quantum dice (state list based)
+///
+/// return the number of universes won by the player who wins more often
+pub fn solution_2((p1, p2): (usize, usize)) -&gt; usize {
+    // index to state multiplicity list
+    const F_IDX: fn(usize, usize, usize, usize, usize) -&gt; usize =
+        |p1, p2, s1, s2, t| p1 + 10 * p2 + 100 * s1 + 2100 * s2 + 44100 * t;
+
+    // state multiplicity list
+    let mut mults = vec![0; 10 * 10 * 21 * 21 * 2];
+
+    // insert at pos_1 - 1 and pos_2 - 1 because position is zero based internally
+    mults[F_IDX(p1 - 1, p2 - 1, 0, 0, 0)] = 1;
+
+    // win counts
+    let mut w1 = 0;
+    let mut w2 = 0;
+
+    for sum in 0..=40 {
+        for s1 in if sum &gt; 20 { sum - 20..=20 } else { 0..=sum } {
+            let s2 = sum - s1;
+
+            for p1 in 0..10 {
+                for p2 in 0..10 {
+                    let mult_1 = mults[F_IDX(p1, p2, s1, s2, 0)];
+                    let mult_2 = mults[F_IDX(p1, p2, s1, s2, 1)];
+
+                    if mult_1 == 0 &amp;&amp; mult_2 == 0 {
+                        continue; // don't loop if no need
+                    }
+
+                    for (v, n) in DICE_MULTS {
+                        let p1_upd = (p1 + v) % 10;
+                        let s1_upd = s1 + p1_upd + 1;
+                        if s1_upd &gt;= 21 {
+                            w1 += mult_1 * n;
+                        } else {
+                            mults[F_IDX(p1_upd, p2, s1_upd, s2, 1)] += mult_1 * n;
+                        }
+
+                        let p2_upd = (p2 + v) % 10;
+                        let s2_upd = s2 + p2_upd + 1;
+                        if s2_upd &gt;= 21 {
+                            w2 += mult_2 * n;
+                        } else {
+                            mults[F_IDX(p1, p2_upd, s1, s2_upd, 0)] += mult_2 * n;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    cmp::max(w1, w2)
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Quick runtime comparison:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Stack based solution: ~450ms</p>
+</li>
+<li>
+<p>List based solution: ~3ms</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>List based is faster by a factor 150!</p>
+</div>
+<div class="paragraph">
+<p>Hence, list based is my default ;)</p>
+</div>
+<div class="paragraph">
+<p>If you still want to run the stack based solution, you can do so with <code>cargo run --release --features stack</code></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_tests_20"><a class="anchor" href="#_tests_20"></a><a class="link" href="#_tests_20">Tests</a></h5>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_play_deterministic() {
+        assert_eq!(739_785, solution_1((4, 8)))
+    }
+
+    #[test]
+    fn test_play_dirac() {
+        assert_eq!(444_356_092_776_315, solution_2((4, 8)))
+    }
+}</code></pre>
+</div>
+</div>
+<a id="day22" />
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_day_22_rust"><a class="anchor" href="#_day_22_rust"></a><a class="link" href="#_day_22_rust">Day 22: rust</a></h3>
+<div class="sect3">
+<h4 id="_day_22_reactor_reboot"><a class="anchor" href="#_day_22_reactor_reboot"></a><a class="link" href="#_day_22_reactor_reboot">Day 22: Reactor Reboot</a></h4>
+<div class="paragraph">
+<p><a href="https://rust-lang.org">Rust</a> solution to <a href="https://adventofcode.com/2021/day/22">AoC|2021|22</a>.</p>
+</div>
+<div class="paragraph">
+<p>Wow. This one took a while. I implemented part one based on a list. Obviously, this does not work for part 2. So a new idea was required.</p>
+</div>
+<div class="sect4">
+<h5 id="_solution_5"><a class="anchor" href="#_solution_5"></a><a class="link" href="#_solution_5">Solution</a></h5>
+<div class="paragraph">
+<p>I use a structure <code>Cuboid</code> with one key function for the solution:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">    /// get count restricted to self recursively as follows
+    ///
+    /// ``count(cuboids[k] in self) = count(cuboids[k] v self) - sum_i=1^k-1 count(cuboids[i] in (cuboids[k] v self))``
+    pub fn get_count_in(&amp;self, cuboids: &amp;[Self]) -&gt; isize {
+        if let Some(other) = cuboids.last() {
+            if let Some(i) = other.intersect(self) {
+                let mut count = if i.on { i.count() } else { 0 };
+                for k in 1..cuboids.len() {
+                    count -= i.get_count_in(&amp;cuboids[..k]);
+                }
+                return count;
+            }
+        }
+
+        0
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This function recursively calculates the contribution of a previous reboot step restricted to the current reboot step. By subtracting all the contributions from previous steps, it essentially undoes the previous steps restricted to the area affected by the current step before applying the current step.</p>
+</div>
+<div class="paragraph">
+<p>The recursion is necessary, because previous steps will in general overlap. So without the recursion, these overlapping areas would be undone several times.</p>
+</div>
+<div class="paragraph">
+<p>This is all it takes. With this the solution to both parts is calculated as</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">pub fn get_on_count(cuboids: &amp;[Cuboid]) -&gt; usize {
+    (0..cuboids.len())
+        .map(|k| Cuboid::UNIVERSE.get_count_in(&amp;cuboids[..=k]))
+        .sum::&lt;isize&gt;() as usize
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For part 1, I restrict the cuboids to satisfy the given bounds:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">pub fn solution_1(cuboids: &amp;[Cuboid]) -&gt; usize {
+    get_on_count(
+        &amp;cuboids
+            .iter()
+            .filter_map(|c| c.clamp(-50, 50))
+            .collect::&lt;Vec&lt;_&gt;&gt;(),
+    )
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And there is also a parse function, as usual:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">pub fn parse(content: &amp;str) -&gt; Vec&lt;Cuboid&gt; {
+    let mut cuboids = Vec::new();
+    for line in content.lines().map(|l| l.trim()).filter(|l| l.len() &gt; 0) {
+        let on = line.starts_with("on");
+
+        let mut ranges = line
+            .strip_prefix(if on { "on " } else { "off " })
+            .expect("Bad line prefix")
+            .split(',')
+            .zip(["x=", "y=", "z="].into_iter())
+            .map(|(p, pre)| p.strip_prefix(pre).expect("Bad part prefix").split(".."))
+            .map(|mut ranges| {
+                (
+                    ranges.next().expect("No min").parse().unwrap(),
+                    ranges.next().expect("No max").parse().unwrap(),
+                )
+            });
+
+        let (x_mn, x_mx) = ranges.next().expect("No x range");
+        let (y_mn, y_mx) = ranges.next().expect("No y range");
+        let (z_mn, z_mx) = ranges.next().expect("No z range");
+
+        cuboids.push(Cuboid {
+            on,
+            x_mn,
+            x_mx,
+            y_mn,
+            y_mx,
+            z_mn,
+            z_mx,
+        });
+    }
+
+    cuboids
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_cuboids_implementation"><a class="anchor" href="#_cuboids_implementation"></a><a class="link" href="#_cuboids_implementation">Cuboids Implementation</a></h5>
+<div class="paragraph">
+<p>Here is the complete implementation of the <code>Cuboid</code> structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">#[derive(PartialEq, Eq, Clone, Copy)]
+pub struct Cuboid {
+    on: bool,
+    x_mn: isize,
+    x_mx: isize,
+    y_mn: isize,
+    y_mx: isize,
+    z_mn: isize,
+    z_mx: isize,
+}
+
+impl fmt::Debug for Cuboid {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        write!(
+            f,
+            "{} x={}..{},y={}..{},z={}..{}",
+            if self.on { "on" } else { "off" },
+            self.x_mn,
+            self.x_mx,
+            self.y_mn,
+            self.y_mx,
+            self.z_mn,
+            self.z_mx
+        )
+    }
+}
+
+impl Cuboid {
+    /// a ``Cuboid`` spanning the complete _universe_
+    /// (very unlikely that the universe is larger than 64bit in any dimension)
+    pub const UNIVERSE: Self = Self {
+        on: false,
+        x_mn: isize::MIN,
+        x_mx: isize::MAX,
+        y_mn: isize::MIN,
+        y_mx: isize::MAX,
+        z_mn: isize::MIN,
+        z_mx: isize::MAX,
+    };
+
+    /// get intersection, on flag is copied from self
+    pub fn intersect(&amp;self, other: &amp;Self) -&gt; Option&lt;Self&gt; {
+        let x_mn = cmp::max(self.x_mn, other.x_mn);
+        let x_mx = cmp::min(self.x_mx, other.x_mx);
+        let y_mn = cmp::max(self.y_mn, other.y_mn);
+        let y_mx = cmp::min(self.y_mx, other.y_mx);
+        let z_mn = cmp::max(self.z_mn, other.z_mn);
+        let z_mx = cmp::min(self.z_mx, other.z_mx);
+
+        if x_mx &gt;= x_mn &amp;&amp; y_mx &gt;= y_mn &amp;&amp; z_mx &gt;= z_mn {
+            Some(Self {
+                on: self.on,
+                x_mn,
+                x_mx,
+                y_mn,
+                y_mx,
+                z_mn,
+                z_mx,
+            })
+        } else {
+            None
+        }
+    }
+
+    /// count the elements in this cuboid
+    pub fn count(&amp;self) -&gt; isize {
+        (self.x_mx - self.x_mn + 1) * (self.y_mx - self.y_mn + 1) * (self.z_mx - self.z_mn + 1)
+    }
+
+    /// get count restricted to self recursively as follows
+    ///
+    /// ``count(cuboids[k] in self) = count(cuboids[k] v self) - sum_i=1^k-1 count(cuboids[i] in (cuboids[k] v self))``
+    pub fn get_count_in(&amp;self, cuboids: &amp;[Self]) -&gt; isize {
+        if let Some(other) = cuboids.last() {
+            if let Some(i) = other.intersect(self) {
+                let mut count = if i.on { i.count() } else { 0 };
+                for k in 1..cuboids.len() {
+                    count -= i.get_count_in(&amp;cuboids[..k]);
+                }
+                return count;
+            }
+        }
+
+        0
+    }
+
+    /// restrict all ranges to be contained in ``mn..=mx``
+    /// if the resulting cuboid is empty, retun ``None``
+    pub fn clamp(&amp;self, mn: isize, mx: isize) -&gt; Option&lt;Self&gt; {
+        let x_mn = cmp::max(self.x_mn, mn);
+        let x_mx = cmp::min(self.x_mx, mx);
+        let y_mn = cmp::max(self.y_mn, mn);
+        let y_mx = cmp::min(self.y_mx, mx);
+        let z_mn = cmp::max(self.z_mn, mn);
+        let z_mx = cmp::min(self.z_mx, mx);
+        if x_mx &lt; x_mn || y_mx &lt; y_mn || z_mx &lt; z_mn {
+            None
+        } else {
+            Some(Cuboid {
+                on: self.on,
+                x_mn,
+                x_mx,
+                y_mn,
+                y_mx,
+                z_mn,
+                z_mx,
+            })
+        }
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_tests_21"><a class="anchor" href="#_tests_21"></a><a class="link" href="#_tests_21">Tests</a></h5>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const CONTENT_PARSE: &amp;str = "on x=10..12,y=10..12,z=10..12
+        on x=11..13,y=11..13,z=11..13
+        off x=9..11,y=9..11,z=9..11
+        on x=10..10,y=10..10,z=10..10";
+    const CUBOIDS_PARSE: &amp;[Cuboid] = &amp;[
+        Cuboid {
+            on: true,
+            x_mn: 10,
+            x_mx: 12,
+            y_mn: 10,
+            y_mx: 12,
+            z_mn: 10,
+            z_mx: 12,
+        },
+        Cuboid {
+            on: true,
+            x_mn: 11,
+            x_mx: 13,
+            y_mn: 11,
+            y_mx: 13,
+            z_mn: 11,
+            z_mx: 13,
+        },
+        Cuboid {
+            on: false,
+            x_mn: 9,
+            x_mx: 11,
+            y_mn: 9,
+            y_mx: 11,
+            z_mn: 9,
+            z_mx: 11,
+        },
+        Cuboid {
+            on: true,
+            x_mn: 10,
+            x_mx: 10,
+            y_mn: 10,
+            y_mx: 10,
+            z_mn: 10,
+            z_mx: 10,
+        },
+    ];
+
+    const CONTENT_1: &amp;str = "on x=-20..26,y=-36..17,z=-47..7
+        on x=-20..33,y=-21..23,z=-26..28
+        on x=-22..28,y=-29..23,z=-38..16
+        on x=-46..7,y=-6..46,z=-50..-1
+        on x=-49..1,y=-3..46,z=-24..28
+        on x=2..47,y=-22..22,z=-23..27
+        on x=-27..23,y=-28..26,z=-21..29
+        on x=-39..5,y=-6..47,z=-3..44
+        on x=-30..21,y=-8..43,z=-13..34
+        on x=-22..26,y=-27..20,z=-29..19
+        off x=-48..-32,y=26..41,z=-47..-37
+        on x=-12..35,y=6..50,z=-50..-2
+        off x=-48..-32,y=-32..-16,z=-15..-5
+        on x=-18..26,y=-33..15,z=-7..46
+        off x=-40..-22,y=-38..-28,z=23..41
+        on x=-16..35,y=-41..10,z=-47..6
+        off x=-32..-23,y=11..30,z=-14..3
+        on x=-49..-5,y=-3..45,z=-29..18
+        off x=18..30,y=-20..-8,z=-3..13
+        on x=-41..9,y=-7..43,z=-33..15
+        on x=-54112..-39298,y=-85059..-49293,z=-27449..7877
+        on x=967..23432,y=45373..81175,z=27513..53682";
+
+    const CONTENT_2: &amp;str = "on x=-5..47,y=-31..22,z=-19..33
+        on x=-44..5,y=-27..21,z=-14..35
+        on x=-49..-1,y=-11..42,z=-10..38
+        on x=-20..34,y=-40..6,z=-44..1
+        off x=26..39,y=40..50,z=-2..11
+        on x=-41..5,y=-41..6,z=-36..8
+        off x=-43..-33,y=-45..-28,z=7..25
+        on x=-33..15,y=-32..19,z=-34..11
+        off x=35..47,y=-46..-34,z=-11..5
+        on x=-14..36,y=-6..44,z=-16..29
+        on x=-57795..-6158,y=29564..72030,z=20435..90618
+        on x=36731..105352,y=-21140..28532,z=16094..90401
+        on x=30999..107136,y=-53464..15513,z=8553..71215
+        on x=13528..83982,y=-99403..-27377,z=-24141..23996
+        on x=-72682..-12347,y=18159..111354,z=7391..80950
+        on x=-1060..80757,y=-65301..-20884,z=-103788..-16709
+        on x=-83015..-9461,y=-72160..-8347,z=-81239..-26856
+        on x=-52752..22273,y=-49450..9096,z=54442..119054
+        on x=-29982..40483,y=-108474..-28371,z=-24328..38471
+        on x=-4958..62750,y=40422..118853,z=-7672..65583
+        on x=55694..108686,y=-43367..46958,z=-26781..48729
+        on x=-98497..-18186,y=-63569..3412,z=1232..88485
+        on x=-726..56291,y=-62629..13224,z=18033..85226
+        on x=-110886..-34664,y=-81338..-8658,z=8914..63723
+        on x=-55829..24974,y=-16897..54165,z=-121762..-28058
+        on x=-65152..-11147,y=22489..91432,z=-58782..1780
+        on x=-120100..-32970,y=-46592..27473,z=-11695..61039
+        on x=-18631..37533,y=-124565..-50804,z=-35667..28308
+        on x=-57817..18248,y=49321..117703,z=5745..55881
+        on x=14781..98692,y=-1341..70827,z=15753..70151
+        on x=-34419..55919,y=-19626..40991,z=39015..114138
+        on x=-60785..11593,y=-56135..2999,z=-95368..-26915
+        on x=-32178..58085,y=17647..101866,z=-91405..-8878
+        on x=-53655..12091,y=50097..105568,z=-75335..-4862
+        on x=-111166..-40997,y=-71714..2688,z=5609..50954
+        on x=-16602..70118,y=-98693..-44401,z=5197..76897
+        on x=16383..101554,y=4615..83635,z=-44907..18747
+        off x=-95822..-15171,y=-19987..48940,z=10804..104439
+        on x=-89813..-14614,y=16069..88491,z=-3297..45228
+        on x=41075..99376,y=-20427..49978,z=-52012..13762
+        on x=-21330..50085,y=-17944..62733,z=-112280..-30197
+        on x=-16478..35915,y=36008..118594,z=-7885..47086
+        off x=-98156..-27851,y=-49952..43171,z=-99005..-8456
+        off x=2032..69770,y=-71013..4824,z=7471..94418
+        on x=43670..120875,y=-42068..12382,z=-24787..38892
+        off x=37514..111226,y=-45862..25743,z=-16714..54663
+        off x=25699..97951,y=-30668..59918,z=-15349..69697
+        off x=-44271..17935,y=-9516..60759,z=49131..112598
+        on x=-61695..-5813,y=40978..94975,z=8655..80240
+        off x=-101086..-9439,y=-7088..67543,z=33935..83858
+        off x=18020..114017,y=-48931..32606,z=21474..89843
+        off x=-77139..10506,y=-89994..-18797,z=-80..59318
+        off x=8476..79288,y=-75520..11602,z=-96624..-24783
+        on x=-47488..-1262,y=24338..100707,z=16292..72967
+        off x=-84341..13987,y=2429..92914,z=-90671..-1318
+        off x=-37810..49457,y=-71013..-7894,z=-105357..-13188
+        off x=-27365..46395,y=31009..98017,z=15428..76570
+        off x=-70369..-16548,y=22648..78696,z=-1892..86821
+        on x=-53470..21291,y=-120233..-33476,z=-44150..38147
+        off x=-93533..-4276,y=-16170..68771,z=-104985..-24507";
+
+    #[test]
+    fn test_parse() {
+        assert_eq!(CUBOIDS_PARSE, parse(CONTENT_PARSE));
+    }
+
+    #[test]
+    fn test_soluton_1_simple() {
+        assert_eq!(27, solution_1(&amp;CUBOIDS_PARSE[..1]));
+        assert_eq!(27 + 19, solution_1(&amp;CUBOIDS_PARSE[..2]));
+        assert_eq!(27 + 19 - 8, solution_1(&amp;CUBOIDS_PARSE[..3]));
+        assert_eq!(27 + 19 - 8 + 1, solution_1(&amp;CUBOIDS_PARSE[..4]));
+    }
+
+    #[test]
+    fn test_solution_1() {
+        assert_eq!(590_784, solution_1(&amp;parse(CONTENT_1)));
+    }
+
+    #[test]
+    fn test_solution_2_simple() {
+        assert_eq!(27, solution_2(&amp;CUBOIDS_PARSE[..1]));
+        assert_eq!(27 + 19, solution_2(&amp;CUBOIDS_PARSE[..2]));
+        assert_eq!(27 + 19 - 8, solution_2(&amp;CUBOIDS_PARSE[..3]));
+        assert_eq!(27 + 19 - 8 + 1, solution_2(&amp;CUBOIDS_PARSE[..4]));
+    }
+
+    #[test]
+    fn test_solution_1_2_compare() {
+        let cuboids = parse(CONTENT_1)
+            .iter()
+            .filter_map(|c| c.clamp(-50, 50))
+            .collect::&lt;Vec&lt;_&gt;&gt;();
+
+        for k in 1..cuboids.len() {
+            println!("\n===\n{:3}\n===", k);
+            assert_eq!(
+                solution_1(&amp;cuboids[0..k]),
+                solution_2(&amp;cuboids[0..k]),
+                "Failed at step {}",
+                k
+            );
+        }
+    }
+
+    #[test]
+    fn test_solution_2() {
+        assert_eq!(2_758_514_936_282_235, solution_2(&amp;parse(CONTENT_2)));
+    }
+}</code></pre>
+</div>
+</div>
+<a id="day23" />
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_day_23_rust"><a class="anchor" href="#_day_23_rust"></a><a class="link" href="#_day_23_rust">Day 23: rust</a></h3>
+<div class="sect3">
+<h4 id="_day_23_amphipod"><a class="anchor" href="#_day_23_amphipod"></a><a class="link" href="#_day_23_amphipod">Day 23: Amphipod</a></h4>
+<div class="paragraph">
+<p><a href="https://rust-lang.org">Rust</a> solution to <a href="https://adventofcode.com/2021/day/23">AoC|2021|23</a>.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>This solution uses nightly Rust features (specifically the function <code>BTreeSet::pop_first</code>). It will not compile on the Rust stable toolchain.</p>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_part_1_15"><a class="anchor" href="#_part_1_15"></a><a class="link" href="#_part_1_15">Part 1</a></h5>
+<div class="paragraph">
+<p>My initial idea was to use Dijkstra. The first challenge was to come up with a way to model the data. After some tries, I decided to model the burrows as a list of <code>Option&lt;u8&gt;</code>s. The first 11 entries model the hallway. The remaining elements model the rooms one after the other. A <code>None</code> value represents open space, a <code>Some(p)</code> value represents a space occupied by amphipod, <code>A</code> for <code>p = 0</code> to <code>D</code> for <code>p = 3</code>.</p>
+</div>
+<div class="paragraph">
+<p>The next challenge is to find all adjacent states from a given state. To solve this, I use a constant <code>MAP</code> listing all adjacent positions for every position. To find the adjacents, I do a depth first search using this map starting from every position that contains an amphipod. There is a lot of potential for bugs in implementing the rules from the puzzle description that describe whether a position is valid for a given amphipod.</p>
+</div>
+<div class="paragraph">
+<p>After all bugs fixed, I had a solution which solved part 1 in ~15 seconds and did never finish for part 2.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_part_2_15"><a class="anchor" href="#_part_2_15"></a><a class="link" href="#_part_2_15">Part 2</a></h5>
+<div class="paragraph">
+<p>I thought that the key to also solve part 2 in reasonable time and with reasonable memory requirements was to switch from Dijkstra to A*. As an heuristic for the remaining cost, I add all the energies required to move to the target position neglecting all amphipods in the way. For amphipods that already sit in their target room but have amphipods of other types below them, I add the cost for moving out of the room and in again. I figured out that A* might help a lot when manually solving part 1 and realizing that the actual cost was only very little above that lower bound.</p>
+</div>
+<div class="paragraph">
+<p>Adding the A* heuristic reduced the solution time to &lt;1s for both parts together.</p>
+</div>
+<div class="paragraph">
+<p>After my A* solution worked, I switched it off again and it turned out that the solution still runs in slightly above 1s for part 2. I cannot figure out, what my mistake really was. Implementing A* obviously helped to fix it&#8230;&#8203;</p>
+</div>
+<div class="paragraph">
+<p>As an additional optimization, I perform some simple deadlock checks (amphipods that cannot exchange position in the hallway and amphipods that cannot reach their room from the left-most or right-most rooms) prior to adding adjacents to the queue. This saves ~40% runtime, mainly for part 2.</p>
+</div>
+<div class="paragraph">
+<p>I made the use of the A* heuristic and the deadlock check configurable via features <code>a-star</code> and <code>deadlock-check</code> which are both active as default. It turns out that A* does not reduce runtime a lot for part 2 but helps a lot for part 1 while it is the other way around for deadlock checks.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_implementation"><a class="anchor" href="#_implementation"></a><a class="link" href="#_implementation">Implementation</a></h5>
+<div class="sect5">
+<h6 id="_a_search"><a class="anchor" href="#_a_search"></a><a class="link" href="#_a_search">A* search</a></h6>
+<div class="paragraph">
+<p>The actual search is performed in a solve method, which mostly implements the logic to find adjacents</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">pub fn solve&lt;B&gt;(start: B) -&gt; usize
+where
+    B: Burrow + Ord + Eq + std::hash::Hash + Copy + std::fmt::Debug,
+{
+    let mut search = Search::init(start);
+
+    while let Some((cost, burrow)) = search.pop() {
+        if burrow == B::TARGET {
+            // target reached
+            return cost;
+        }
+
+        for k in 0..B::LEN {
+            if let Some(p) = burrow[k] {
+                let cur_room = B::get_room(k);
+                if cur_room == Some(p)
+                    &amp;&amp; (k + 1..B::get_room_mx(p)).all(|k_r| burrow[k_r] == Some(p))
+                {
+                    // position is settled in room (below are only the pods of the same type)
+                    continue;
+                }
+
+                let mut done = vec![false; B::LEN];
+                let mut stack = Vec::new();
+                done[k] = true;
+                for k_adj in B::MAP[k] {
+                    done[*k_adj] = true;
+                    stack.push((1, *k_adj));
+                }
+
+                while let Some((steps, k_adj)) = stack.pop() {
+                    if burrow[k_adj].is_some() {
+                        // cannot move on top of other
+                        continue;
+                    }
+
+                    let adj_room = B::get_room(k_adj);
+                    if adj_room == Some(p)
+                        &amp;&amp; (k_adj + 1..B::get_room_mx(p)).all(|k_r| burrow[k_r] == Some(p))
+                    {
+                        // move in own room
+                        let weight = steps * B::ENERGIES[p as usize];
+                        let mut adjacent = burrow;
+                        adjacent.move_pod(k, k_adj);
+                        search.push(cost, burrow, weight, adjacent.get_min_cost(), adjacent);
+                        // no need to continue to look for other adjacents
+                        continue;
+                    }
+
+                    if k_adj &lt; B::HALLWAY_LEN &amp;&amp; !B::is_door(k_adj) &amp;&amp; cur_room.is_some() {
+                        // move from room to hallway
+                        let weight = steps * B::ENERGIES[p as usize];
+                        let mut adjacent = burrow;
+                        adjacent.move_pod(k, k_adj);
+                        if !adjacent.is_deadlock() {
+                            search.push(cost, burrow, weight, adjacent.get_min_cost(), adjacent);
+                        }
+                        // continue search, other positions in the hallway may be valid adjacents
+                    }
+
+                    for k_adj_2 in B::MAP[k_adj] {
+                        if !done[*k_adj_2] {
+                            done[*k_adj_2] = true;
+                            stack.push((steps + 1, *k_adj_2));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    panic!("No path found");
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_burrow"><a class="anchor" href="#_burrow"></a><a class="link" href="#_burrow">Burrow</a></h6>
+<div class="paragraph">
+<p>I wanted to have a solution that works for both, part 1 and part 2.</p>
+</div>
+<div class="paragraph">
+<p>Therefore, I implemented a trait <code>Burrow</code> and a trait <code>BurrowCommon</code> to be able to create blanket implementations for common behavior or properties. The two structs implementing the trait <code>Burrow</code> are <code>BurrowSmall</code> for part 1 and <code>BurrowLarge</code> for part 2.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">#[derive(PartialEq, Eq, Clone, Copy, PartialOrd, Ord, Hash)]
+pub struct BurrowLarge {
+    data: [Option&lt;u8&gt;; 11 + 4 * 4],
+}
+
+#[derive(PartialEq, Eq, Clone, Copy, PartialOrd, Ord, Hash)]
+pub struct BurrowSmall {
+    data: [Option&lt;u8&gt;; 11 + 4 * 2],
+}
+
+pub trait Burrow: std::ops::Index&lt;usize, Output = Option&lt;u8&gt;&gt; + std::ops::IndexMut&lt;usize&gt; {
+    const ROOM_LEN: usize;
+    const LEN: usize;
+    const MAP: &amp;'static [&amp;'static [usize]];
+    const MIN_COST: &amp;'static [[usize; 4]];
+    const TARGET: Self;
+}
+
+pub trait BurrowCommon {
+    const HALLWAY_LEN: usize;
+    const ENERGIES: [usize; 4];
+    fn format(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result;
+    fn is_door(idx: usize) -&gt; bool;
+    fn get_room(idx: usize) -&gt; Option&lt;u8&gt;;
+    fn get_room_mn(room: u8) -&gt; usize;
+    fn get_room_mx(room: u8) -&gt; usize;
+    fn move_pod(&amp;mut self, idx_from: usize, idx_to: usize);
+    fn get_min_cost(&amp;self) -&gt; usize;
+    fn is_deadlock(&amp;self) -&gt; bool;
+}
+
+impl&lt;B&gt; BurrowCommon for B
+where
+    B: Burrow,
+{
+    const HALLWAY_LEN: usize = 11;
+    const ENERGIES: [usize; 4] = [1, 10, 100, 1000];
+
+    fn format(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+        write!(f, "#############\n")?;
+        write!(f, "#")?;
+        for k in 0..Self::HALLWAY_LEN {
+            match self[k] {
+                Some(0) =&gt; write!(f, "A")?,
+                Some(1) =&gt; write!(f, "B")?,
+                Some(2) =&gt; write!(f, "C")?,
+                Some(3) =&gt; write!(f, "D")?,
+                _ =&gt; write!(f, ".")?,
+            };
+        }
+        write!(f, "#\n")?;
+
+        for row in 0..Self::ROOM_LEN {
+            if row == 0 {
+                write!(f, "###")?;
+            } else {
+                write!(f, "  #")?;
+            }
+
+            for room in 0..4 {
+                match self[Self::HALLWAY_LEN + Self::ROOM_LEN * room + row] {
+                    Some(0) =&gt; write!(f, "A#")?,
+                    Some(1) =&gt; write!(f, "B#")?,
+                    Some(2) =&gt; write!(f, "C#")?,
+                    Some(3) =&gt; write!(f, "D#")?,
+                    _ =&gt; write!(f, ".#")?,
+                };
+            }
+
+            if row == 0 {
+                write!(f, "##\n")?;
+            } else {
+                write!(f, "\n")?;
+            }
+        }
+        write!(f, "  #########")
+    }
+
+    fn is_door(idx: usize) -&gt; bool {
+        idx == 2 || idx == 4 || idx == 6 || idx == 8
+    }
+
+    fn get_room(idx: usize) -&gt; Option&lt;u8&gt; {
+        if idx &gt;= Self::HALLWAY_LEN {
+            Some(((idx - Self::HALLWAY_LEN) / Self::ROOM_LEN) as u8)
+        } else {
+            None
+        }
+    }
+
+    fn get_room_mn(room: u8) -&gt; usize {
+        Self::HALLWAY_LEN + room as usize * Self::ROOM_LEN
+    }
+
+    fn get_room_mx(room: u8) -&gt; usize {
+        Self::HALLWAY_LEN + (room as usize + 1) * Self::ROOM_LEN
+    }
+
+    fn move_pod(&amp;mut self, idx_from: usize, idx_to: usize) {
+        assert_eq!(None, self[idx_to]);
+        self[idx_to] = self[idx_from];
+        self[idx_from] = None;
+    }
+
+    #[cfg(feature = "a-star")]
+    fn get_min_cost(&amp;self) -&gt; usize {
+        let mut cost = 0;
+        for k in 0..Self::LEN {
+            if let Some(p) = self[k] {
+                // lookup minimum cost from table
+                cost += Self::MIN_COST[k][p as usize];
+                if let Some(r) = Self::get_room(k) {
+                    if p == r
+                        &amp;&amp; (k + 1..Self::get_room_mx(r))
+                            .any(|k| self[k].map(|p2| p2 != p).unwrap_or(false))
+                    {
+                        // foreigners below, need to
+                        // - move out (+1) and
+                        // - move one to the side (+1)
+                        // - and back again (*2)
+                        let adder = 2
+                            * (k - Self::get_room_mn(r) as usize + 2)
+                            * Self::ENERGIES[p as usize];
+                        cost += adder;
+                    }
+                }
+            }
+        }
+
+        for e in Self::ENERGIES {
+            cost -= Self::ROOM_LEN * (Self::ROOM_LEN - 1) / 2 * e;
+        }
+
+        cost
+    }
+
+    #[cfg(not(feature = "a-star"))]
+    fn get_min_cost(&amp;self) -&gt; usize {
+        0
+    }
+
+    #[cfg(feature = "deadlock-check")]
+    fn is_deadlock(&amp;self) -&gt; bool {
+        // pods in hallway which cannot exchange positions
+        if self[3] == Some(3) &amp;&amp; self[5] == Some(0)
+            || self[3] == Some(3) &amp;&amp; self[7] == Some(0)
+            || self[5] == Some(3) &amp;&amp; self[7] == Some(0)
+            || self[5] == Some(3) &amp;&amp; self[7] == Some(1)
+            || self[3] == Some(2) &amp;&amp; self[5] == Some(0)
+        {
+            return true;
+        }
+
+        // pods in left most room which cannot reach any other room
+        if self[1].is_some()
+            &amp;&amp; self[3] == Some(0)
+            &amp;&amp; (Self::get_room_mn(0)..Self::get_room_mx(0))
+                .filter_map(|k| self[k])
+                .max()
+                .map_or(false, |mx| mx &gt; 0)
+        {
+            return true;
+        }
+
+        // pods in rightmost room which cannto reach any other room
+        if self[9].is_some()
+            &amp;&amp; self[7] == Some(3)
+            &amp;&amp; (Self::get_room_mn(3)..Self::get_room_mx(3))
+                .filter_map(|k| self[k])
+                .min()
+                .map_or(false, |mn| mn &lt; 3)
+        {
+            return true;
+        }
+
+        false
+    }
+
+    #[cfg(not(feature = "deadlock-check"))]
+    fn is_deadlock(&amp;self) -&gt; bool {
+        false
+    }
+}
+
+impl Burrow for BurrowLarge {
+    const TARGET: Self = Self {
+        data: [
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            Some(0),
+            Some(0),
+            Some(0),
+            Some(0),
+            Some(1),
+            Some(1),
+            Some(1),
+            Some(1),
+            Some(2),
+            Some(2),
+            Some(2),
+            Some(2),
+            Some(3),
+            Some(3),
+            Some(3),
+            Some(3),
+        ],
+    };
+    const ROOM_LEN: usize = 4;
+    const LEN: usize = 11 + 4 * 4;
+    const MAP: &amp;'static [&amp;'static [usize]] = &amp;[
+        &amp;[1],
+        &amp;[0, 2],
+        &amp;[1, 3, 11],
+        &amp;[2, 4],
+        &amp;[3, 5, 15],
+        &amp;[4, 6],
+        &amp;[5, 7, 19],
+        &amp;[6, 8],
+        &amp;[7, 9, 23],
+        &amp;[8, 10],
+        &amp;[9],
+        // room 1
+        &amp;[2, 12],
+        &amp;[11, 13],
+        &amp;[12, 14],
+        &amp;[13],
+        // room 2
+        &amp;[4, 16],
+        &amp;[15, 17],
+        &amp;[16, 18],
+        &amp;[17],
+        // room 3
+        &amp;[6, 20],
+        &amp;[19, 21],
+        &amp;[20, 22],
+        &amp;[21],
+        // room 4
+        &amp;[8, 24],
+        &amp;[23, 25],
+        &amp;[24, 26],
+        &amp;[25],
+    ];
+    const MIN_COST: &amp;'static [[usize; 4]] = &amp;[
+        // hallway
+        [6, 80, 1000, 12000],
+        [5, 70, 900, 11000],
+        [4, 60, 800, 10000],
+        [5, 50, 700, 9000],
+        [6, 40, 600, 8000],
+        [7, 50, 500, 7000],
+        [8, 60, 400, 6000],
+        [9, 70, 500, 5000],
+        [10, 80, 600, 4000],
+        [11, 90, 700, 5000],
+        [12, 100, 800, 6000],
+        // room 1
+        [3, 70, 900, 11000],
+        [2, 80, 1000, 12000],
+        [1, 90, 1100, 13000],
+        [0, 100, 1200, 14000],
+        // room 2
+        [7, 30, 700, 9000],
+        [8, 20, 800, 10000],
+        [9, 10, 900, 11000],
+        [10, 0, 1000, 12000],
+        // room 3
+        [9, 70, 300, 7000],
+        [10, 80, 200, 8000],
+        [11, 90, 100, 9000],
+        [12, 100, 0, 10000],
+        // room 4
+        [11, 90, 700, 3000],
+        [12, 100, 800, 2000],
+        [13, 110, 900, 1000],
+        [14, 120, 1000, 0],
+    ];
+}
+
+impl Burrow for BurrowSmall {
+    const TARGET: Self = Self {
+        data: [
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            Some(0),
+            Some(0),
+            Some(1),
+            Some(1),
+            Some(2),
+            Some(2),
+            Some(3),
+            Some(3),
+        ],
+    };
+    const ROOM_LEN: usize = 2;
+    const LEN: usize = 11 + 4 * 2;
+    const MAP: &amp;'static [&amp;'static [usize]] = &amp;[
+        &amp;[1],
+        &amp;[0, 2],
+        &amp;[1, 3, 11],
+        &amp;[2, 4],
+        &amp;[3, 5, 13],
+        &amp;[4, 6],
+        &amp;[5, 7, 15],
+        &amp;[6, 8],
+        &amp;[7, 9, 17],
+        &amp;[8, 10],
+        &amp;[9],
+        // room 1
+        &amp;[2, 12],
+        &amp;[11],
+        // room 2
+        &amp;[4, 14],
+        &amp;[13],
+        // room 3
+        &amp;[6, 16],
+        &amp;[15],
+        // room 4
+        &amp;[8, 18],
+        &amp;[17],
+    ];
+    const MIN_COST: &amp;'static [[usize; 4]] = &amp;[
+        // hallway
+        [4, 60, 800, 10000],
+        [3, 50, 700, 9000],
+        [2, 40, 600, 8000],
+        [3, 30, 500, 7000],
+        [4, 20, 400, 6000],
+        [5, 30, 300, 5000],
+        [6, 40, 200, 4000],
+        [7, 50, 300, 3000],
+        [8, 60, 400, 2000],
+        [9, 70, 500, 3000],
+        [10, 80, 600, 4000],
+        // room 1
+        [1, 50, 700, 9000],
+        [0, 60, 800, 10000],
+        // room 2
+        [5, 10, 500, 7000],
+        [6, 0, 600, 8000],
+        // room 3
+        [7, 50, 100, 5000],
+        [8, 60, 0, 6000],
+        // room 4
+        [9, 70, 500, 1000],
+        [10, 80, 600, 0],
+    ];
+}
+
+impl std::fmt::Debug for BurrowSmall {
+    fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+        self.format(f)
+    }
+}
+
+impl std::fmt::Display for BurrowSmall {
+    fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+        self.format(f)
+    }
+}
+
+impl std::ops::Index&lt;usize&gt; for BurrowSmall {
+    type Output = Option&lt;u8&gt;;
+
+    fn index(&amp;self, index: usize) -&gt; &amp;Self::Output {
+        &amp;self.data[index]
+    }
+}
+
+impl std::ops::IndexMut&lt;usize&gt; for BurrowSmall {
+    fn index_mut(&amp;mut self, index: usize) -&gt; &amp;mut Self::Output {
+        &amp;mut self.data[index]
+    }
+}
+
+impl std::fmt::Debug for BurrowLarge {
+    fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+        self.format(f)
+    }
+}
+
+impl std::fmt::Display for BurrowLarge {
+    fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+        self.format(f)
+    }
+}
+
+impl std::ops::Index&lt;usize&gt; for BurrowLarge {
+    type Output = Option&lt;u8&gt;;
+
+    fn index(&amp;self, index: usize) -&gt; &amp;Self::Output {
+        &amp;self.data[index]
+    }
+}
+
+impl std::ops::IndexMut&lt;usize&gt; for BurrowLarge {
+    fn index_mut(&amp;mut self, index: usize) -&gt; &amp;mut Self::Output {
+        &amp;mut self.data[index]
+    }
+}
+
+impl BurrowSmall {
+    pub fn parse(content: &amp;str) -&gt; Self {
+        let mut lines = content.lines().skip(1);
+
+        let mut data = [None; Self::LEN];
+
+        for (k, c) in lines
+            .next()
+            .expect("No hallway")
+            .chars()
+            .skip(1)
+            .enumerate()
+        {
+            data[k] = match c {
+                'A' =&gt; Some(0),
+                'B' =&gt; Some(1),
+                'C' =&gt; Some(2),
+                'D' =&gt; Some(3),
+                '.' =&gt; None,
+                '#' =&gt; break,
+                _ =&gt; panic!("Unexpected char: {}", c),
+            }
+        }
+
+        for row in 0..Self::ROOM_LEN {
+            let mut i = 0;
+            for (_, c) in lines
+                .next()
+                .expect("No hallway")
+                .chars()
+                .skip(1)
+                .enumerate()
+                .filter(|(k, _)| Self::is_door(*k))
+            {
+                let pod = match c {
+                    'A' =&gt; Some(0),
+                    'B' =&gt; Some(1),
+                    'C' =&gt; Some(2),
+                    'D' =&gt; Some(3),
+                    '.' =&gt; None,
+                    _ =&gt; panic!("Unexpected character: {}", c),
+                };
+                data[Self::HALLWAY_LEN + i * Self::ROOM_LEN + row] = pod;
+                i += 1;
+            }
+        }
+
+        Self { data }
+    }
+}
+
+impl BurrowLarge {
+    pub fn from(burrow: BurrowSmall) -&gt; Self {
+        let mut data = [None; Self::LEN];
+
+        for k in 0..Self::HALLWAY_LEN {
+            data[k] = burrow.data[k];
+        }
+
+        for k in 0..4 {
+            data[Self::HALLWAY_LEN + k * Self::ROOM_LEN + 0] =
+                burrow.data[BurrowSmall::HALLWAY_LEN + k * BurrowSmall::ROOM_LEN + 0];
+            data[Self::HALLWAY_LEN + k * Self::ROOM_LEN + 3] =
+                burrow.data[BurrowSmall::HALLWAY_LEN + k * BurrowSmall::ROOM_LEN + 1];
+        }
+
+        data[Self::HALLWAY_LEN + 0 * Self::ROOM_LEN + 1] = Some(3);
+        data[Self::HALLWAY_LEN + 0 * Self::ROOM_LEN + 2] = Some(3);
+        data[Self::HALLWAY_LEN + 1 * Self::ROOM_LEN + 1] = Some(2);
+        data[Self::HALLWAY_LEN + 1 * Self::ROOM_LEN + 2] = Some(1);
+        data[Self::HALLWAY_LEN + 2 * Self::ROOM_LEN + 1] = Some(1);
+        data[Self::HALLWAY_LEN + 2 * Self::ROOM_LEN + 2] = Some(0);
+        data[Self::HALLWAY_LEN + 3 * Self::ROOM_LEN + 1] = Some(0);
+        data[Self::HALLWAY_LEN + 3 * Self::ROOM_LEN + 2] = Some(2);
+
+        Self { data }
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_search_state"><a class="anchor" href="#_search_state"></a><a class="link" href="#_search_state">Search State</a></h6>
+<div class="paragraph">
+<p>The search state is modeled as a separate struct:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">#[derive(Debug)]
+pub struct Search&lt;T&gt; {
+    heap: BTreeSet&lt;(usize, usize, T)&gt;,
+    settled: HashSet&lt;T&gt;,
+    costs: HashMap&lt;T, (usize, usize)&gt;,
+    parents: HashMap&lt;T, (usize, Option&lt;T&gt;)&gt;,
+    trace_path: bool,
+}
+
+impl&lt;T&gt; Search&lt;T&gt;
+where
+    T: Eq + Ord + std::hash::Hash + Copy + std::fmt::Debug,
+{
+    pub fn init(start: T) -&gt; Self {
+        let mut search = Self {
+            heap: BTreeSet::new(),
+            settled: HashSet::new(),
+            costs: HashMap::new(),
+            parents: HashMap::new(),
+            trace_path: false,
+        };
+        search.heap.insert((0, 0, start));
+        search.settled.insert(start);
+        search.costs.insert(start, (0, 0));
+        search
+    }
+
+    pub fn pop(&amp;mut self) -&gt; Option&lt;(usize, T)&gt; {
+        if let Some((_, cost, burrow)) = self.heap.pop_first() {
+            self.settled.insert(burrow);
+            Some((cost, burrow))
+        } else {
+            None
+        }
+    }
+
+    pub fn push(
+        &amp;mut self,
+        cost: usize,
+        parent: T,
+        weight: usize,
+        bound_rem: usize,
+        adjacent: T,
+    ) -&gt; bool {
+        if self.settled.contains(&amp;adjacent) {
+            return false;
+        }
+
+        if let Some((cur_bound, cur_cost)) = self.costs.get(&amp;adjacent) {
+            if cost + weight + bound_rem &lt; *cur_bound {
+                self.heap.remove(&amp;(*cur_bound, *cur_cost, adjacent));
+            } else {
+                return false;
+            }
+        }
+
+        self.heap
+            .insert((cost + weight + bound_rem, cost + weight, adjacent));
+        self.costs
+            .insert(adjacent, (cost + weight + bound_rem, cost + weight));
+        if self.trace_path {
+            self.parents.insert(adjacent, (weight, Some(parent)));
+        }
+
+        true
+    }
+
+    pub fn get_path_to(&amp;self, target: T) -&gt; VecDeque&lt;(usize, T)&gt; {
+        let mut path = VecDeque::new();
+
+        let mut current = target;
+        while let Some((cost, parent)) = self.parents.get(&amp;current) {
+            path.push_front((*cost, current));
+            if let Some(parent) = parent {
+                current = *parent;
+            } else {
+                break;
+            }
+        }
+
+        path
+    }
+
+    pub fn print_path_to(&amp;self, target: T) {
+        for (weight, burrow) in self.get_path_to(target) {
+            println!("==({})==&gt;\n{:?}", weight, burrow);
+        }
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_tests_22"><a class="anchor" href="#_tests_22"></a><a class="link" href="#_tests_22">Tests</a></h5>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const CONTENT_1: &amp;str = "#############
+#...........#
+###B#C#B#D###
+  #A#D#C#A#
+  #########";
+    const BURROW_1: BurrowSmall = BurrowSmall {
+        data: [
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            Some(1),
+            Some(0),
+            Some(2),
+            Some(3),
+            Some(1),
+            Some(2),
+            Some(3),
+            Some(0),
+        ],
+    };
+
+    const BURROW_2: BurrowLarge = BurrowLarge {
+        data: [
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            Some(1),
+            Some(3),
+            Some(3),
+            Some(0),
+            Some(2),
+            Some(2),
+            Some(1),
+            Some(3),
+            Some(1),
+            Some(1),
+            Some(0),
+            Some(2),
+            Some(3),
+            Some(0),
+            Some(2),
+            Some(0),
+        ],
+    };
+
+    #[test]
+    fn test_parse() {
+        let burrow = parse(CONTENT_1);
+        assert_eq!(BURROW_1, burrow);
+        println!("{:?}", burrow);
+    }
+
+    const CONTENT_2: &amp;str = "#############
+#...B.......#
+###B#C#.#D###
+  #A#D#C#A#
+  #########";
+    const CONTENT_3: &amp;str = "#############
+#...B.......#
+###B#.#C#D###
+  #A#D#C#A#
+  #########";
+    const CONTENT_4: &amp;str = "#############
+#.....D.....#
+###B#.#C#D###
+  #A#B#C#A#
+  #########";
+    const CONTENT_5: &amp;str = "#############
+#.....D.....#
+###.#B#C#D###
+  #A#B#C#A#
+  #########";
+    const CONTENT_6: &amp;str = "#############
+#.....D.D.A.#
+###.#B#C#.###
+  #A#B#C#.#
+  #########";
+    const CONTENT_7: &amp;str = "#############
+#.........A.#
+###.#B#C#D###
+  #A#B#C#D#
+  #########";
+    const CONTENT_8: &amp;str = "#############
+#...........#
+###A#B#C#D###
+  #A#B#C#D#
+  #########";
+
+    #[test]
+    fn test_solution_1() {
+        let exp_costs = [
+            40 + 400 + 3030 + 40 + 2003 + 7000 + 8,
+            400 + 3030 + 40 + 2003 + 7000 + 8,
+            3030 + 40 + 2003 + 7000 + 8,
+            40 + 2003 + 7000 + 8,
+            2003 + 7000 + 8,
+            7000 + 8,
+            8,
+            0,
+        ];
+
+        let burrows = [
+            BURROW_1,
+            parse(CONTENT_2),
+            parse(CONTENT_3),
+            parse(CONTENT_4),
+            parse(CONTENT_5),
+            parse(CONTENT_6),
+            parse(CONTENT_7),
+            parse(CONTENT_8),
+        ];
+
+        for k in (0..1).rev() {
+            let act_cost = solution_1(burrows[k]);
+            assert_eq!(exp_costs[k], act_cost);
+        }
+    }
+
+    #[test]
+    fn test_solution_2() {
+        assert_eq!(44169, solution_2(BURROW_1));
+    }
+
+    #[test]
+    fn test_burrow_large_from() {
+        assert_eq!(BURROW_2, BurrowLarge::from(BURROW_1));
+    }
+
+    #[test]
+    fn test_get_min_cost() {
+        let burrow = BurrowLarge::from(parse(
+            "#############
+#...........#
+###A#D#C#A###
+  #C#D#B#B#
+  #########",
+        ));
+        println!("{:?}", burrow);
+        assert_eq!(43365, burrow.get_min_cost());
+        assert_eq!(0, BurrowLarge::TARGET.get_min_cost());
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_today_i_learned_10"><a class="anchor" href="#_today_i_learned_10"></a><a class="link" href="#_today_i_learned_10">Today I learned</a></h5>
+<div class="paragraph">
+<p>A* can be very helpful compared to plain Dijkstra! But it is even more helpful to implemenent the basic Dijkstra correctly.</p>
+</div>
+<div class="paragraph">
+<p>I think this was the first time I created what Rust calls "blanket implementations".</p>
+</div>
+<a id="day24" />
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_day_24_rust"><a class="anchor" href="#_day_24_rust"></a><a class="link" href="#_day_24_rust">Day 24: rust</a></h3>
+<div class="sect3">
+<h4 id="_day_24_arithmetic_logic_unit"><a class="anchor" href="#_day_24_arithmetic_logic_unit"></a><a class="link" href="#_day_24_arithmetic_logic_unit">Day 24: Arithmetic Logic Unit</a></h4>
+<div class="paragraph">
+<p><a href="https://rust-lang.org">Rust</a> solution to <a href="https://adventofcode.com/2021/day/24">AoC|2021|24</a>.</p>
+</div>
+<div class="paragraph">
+<p>I don&#8217;t get the idea of today&#8217;s puzzle. I essentially solved it manually. From my point of view, a well posed problem allows to implement a solution without looking at the puzzle input data and than compute a solution based on the puzzle input. For today&#8217;s problem, I don&#8217;t think there is a way to find a solution without analyzing the puzzle input.</p>
+</div>
+<div class="paragraph">
+<p>I reverse engineered the MONAD (puzzle input) to figure out what actually happens. The content in variable z can essentially be interpreted as a stack od input digits with offsets. To add stack elements, the current content is multiplied with 26 (in case of my puzzle input) and than the next element is added. This constrains an element to be in the range 0 to 25 (inclusive). Since input digits are in the range 0 to 9 (inclusive), offsets shall be in the range 0 to 16 (inclusive).</p>
+</div>
+<div class="paragraph">
+<p>The MONAD contains of 14 blocks (one for every input digit), which evaluate a condition and based on the outcome push a new element to the stack (the z variable).</p>
+</div>
+<div class="paragraph">
+<p>In seven of the blocks, the condition evaluates to true independently of the input digit. In the remaining seven blocks, a new element is pushed to the stack if <code>dX != dY + o</code>. For stack to be empty at the end and thus the variable <code>z</code> to equal zero, elements shall not be pushed to the stack, i.e., <code>dX = dY + o</code>, where <code>dX</code> and <code>dY</code> are digits of the serial number to be checked and <code>o &gt;= 0</code> is an offset.</p>
+</div>
+<div class="paragraph">
+<p>For the equalities to be satisfied, <code>dY &gt;= 1</code> and <code>dY &#8656; 9 - o</code> need to be satisfied.</p>
+</div>
+<div class="sect4">
+<h5 id="_solution_6"><a class="anchor" href="#_solution_6"></a><a class="link" href="#_solution_6">Solution</a></h5>
+<div class="paragraph">
+<p>After I had the solution, I put into code what I did manually (so it might work for other inputs assuming they differ in the offsets only).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">pub const DIGIT_MIN: Val = 1;
+pub const DIGIT_MAX: Val = 9;
+
+pub const INPUT_LEN: usize = 14;
+
+pub fn get_constraints(instructions: &amp;[Inst]) -&gt; Vec&lt;(usize, usize, Val)&gt; {
+    let block_starts = instructions
+        .iter()
+        .enumerate()
+        .filter(|(_, i)| i == &amp;&amp;Inst::Inp(Var::W))
+        .map(|(k, _)| k)
+        .collect::&lt;Vec&lt;_&gt;&gt;();
+
+    assert_eq!(INPUT_LEN, block_starts.len());
+
+    // determine module used to build stack
+    let module = instructions
+        .iter()
+        .filter_map(|i| {
+            if let Inst::Mod(Var::X, Op::Val(m)) = i {
+                Some(*m)
+            } else {
+                None
+            }
+        })
+        .next()
+        .expect("No module");
+
+    // stack of elements (n, o) where n is an input number and o an offset
+    // the actual value of the z variable will be
+    // stack.iter().fold(0, |z, (n, o)| z * module + input[n] + o);
+    let mut stack: Vec&lt;(usize, Val)&gt; = Vec::with_capacity(INPUT_LEN);
+
+    // constraints holds elements (n1, n2, o) and represents a constraint
+    // input[n1] == input[n2] + o, which needs to be satisfied for a valid serial number
+    let mut constraints = Vec::with_capacity(INPUT_LEN / 2);
+
+    // iterate over blocks
+    for (n1, k) in block_starts.iter().enumerate() {
+        // take last element of stack
+        // a single 'div z a' instruction is expected per block where a is either
+        // the module or 1. In case of a == module, the last element from z is removed
+        let element = if instructions[*k..]
+            .iter()
+            .filter_map(|i| {
+                if let Inst::Div(Var::Z, Op::Val(div)) = i {
+                    Some(*div)
+                } else {
+                    None
+                }
+            })
+            .next()
+            .expect("No div")
+            == module
+        {
+            // z is divided by 26, pop element
+            stack.pop()
+        } else {
+            // z is divided by 1, peek element
+            stack.last().map(|e| *e)
+        };
+
+        // a single instruction 'add x a' where a is a literal value is expected in a block
+        // the value a is used to build the condition
+        let off = instructions[*k..]
+            .iter()
+            .filter_map(|i| {
+                if let Inst::Add(Var::X, Op::Val(o)) = i {
+                    Some(*o)
+                } else {
+                    None
+                }
+            })
+            .next()
+            .expect("No check offset");
+
+        // the actual condition offset is the offset from the last element from stack + the
+        // condition offset
+        let off = element.map(|(_, o)| off + o).unwrap_or(off);
+
+        if off &gt; -DIGIT_MAX &amp;&amp; off &lt; DIGIT_MAX {
+            // if the offset is greater than -9 and less than 9, this results in a constraint comparing
+            // two inputs input[n] = input[n1] + off. This is only valid, if there was a last element on
+            // stack
+            let (n2, _) = element.expect("Condition but no input digit to compare");
+
+            // normalize constraint to positive offsets
+            constraints.push(if off &gt; 0 {
+                (n1, n2, off)
+            } else {
+                (n2, n1, -off)
+            });
+
+            // if constraint is satisfied, no additional element will be added to stack
+        } else {
+            // the condition check outcome is independent of the input values, add next element to stack
+            // there will be one instruction 'add y w' followed by an instruction 'add y a' where
+            // a is a literal value representing an offset
+            let k_add = instructions[*k..]
+                .iter()
+                .position(|i| i == &amp;Inst::Add(Var::Y, Op::Var(Var::W)))
+                .expect("input is not copied to y");
+
+            if let Inst::Add(Var::Y, Op::Val(off)) = instructions[*k + k_add + 1] {
+                assert!(off &gt;= 0 &amp;&amp; off &lt; module - DIGIT_MAX, "Input does not fit");
+                stack.push((n1, off));
+            } else {
+                panic!("No offset added to digit {}", n1);
+            }
+        }
+    }
+
+    // expect 7 constraints and stack empty (z equal to 0)
+    assert_eq!(INPUT_LEN / 2, constraints.len());
+    assert!(stack.is_empty());
+
+    constraints
+}
+
+pub fn solution_1(instructions: &amp;[Inst]) -&gt; usize {
+    let inputs = &amp;mut [0; INPUT_LEN];
+    for (n1, n2, o) in get_constraints(instructions) {
+        inputs[n1] = DIGIT_MAX;
+        inputs[n2] = DIGIT_MAX - o;
+    }
+
+    assert_eq!(0, execute(instructions, inputs));
+
+    inputs.iter().fold(0, |v, d| 10 * v + *d as usize)
+}
+
+pub fn solution_2(instructions: &amp;[Inst]) -&gt; usize {
+    let inputs = &amp;mut [0; INPUT_LEN];
+    for (n1, n2, o) in get_constraints(instructions) {
+        inputs[n1] = DIGIT_MIN + o;
+        inputs[n2] = DIGIT_MIN;
+    }
+
+    assert_eq!(0, execute(instructions, inputs));
+
+    inputs.iter().fold(0, |v, d| 10 * v + *d as usize)
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_traits_index_and_implementation"><a class="anchor" href="#_traits_index_and_implementation"></a><a class="link" href="#_traits_index_and_implementation">Traits, Index and implementation</a></h5>
+<div class="paragraph">
+<p>I wanted to learn something today, so I implemented Instructions using structs, traits and enums. This allows to have all range checks done at compile time.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">/// Value type
+pub type Val = i32;
+/// Memory of variables
+pub type Memory = [Val; 4];
+
+/// Variable
+#[derive(Debug, PartialEq, Eq, Clone, Copy)]
+pub enum Var {
+    W,
+    X,
+    Y,
+    Z,
+}
+
+impl std::ops::Index&lt;Var&gt; for Memory {
+    type Output = Val;
+
+    fn index(&amp;self, index: Var) -&gt; &amp;Self::Output {
+        match index {
+            Var::W =&gt; &amp;self[0],
+            Var::X =&gt; &amp;self[1],
+            Var::Y =&gt; &amp;self[2],
+            Var::Z =&gt; &amp;self[3],
+        }
+    }
+}
+
+impl std::ops::IndexMut&lt;Var&gt; for Memory {
+    fn index_mut(&amp;mut self, index: Var) -&gt; &amp;mut Self::Output {
+        match index {
+            Var::W =&gt; &amp;mut self[0],
+            Var::X =&gt; &amp;mut self[1],
+            Var::Y =&gt; &amp;mut self[2],
+            Var::Z =&gt; &amp;mut self[3],
+        }
+    }
+}
+
+impl std::str::FromStr for Var {
+    type Err = ();
+
+    fn from_str(s: &amp;str) -&gt; Result&lt;Self, Self::Err&gt; {
+        match s {
+            "w" =&gt; Ok(Var::W),
+            "x" =&gt; Ok(Var::X),
+            "y" =&gt; Ok(Var::Y),
+            "z" =&gt; Ok(Var::Z),
+            _ =&gt; Err(()),
+        }
+    }
+}
+
+/// Second operand (Variable or Literal)
+#[derive(Debug, PartialEq, Eq)]
+pub enum Op {
+    Var(Var),
+    Val(Val),
+}
+
+impl Op {
+    /// evaluate operand
+    pub fn eval(&amp;self, vars: &amp;Memory) -&gt; Val {
+        match self {
+            Op::Var(v) =&gt; vars[*v],
+            Op::Val(v) =&gt; *v,
+        }
+    }
+}
+
+impl std::str::FromStr for Op {
+    type Err = std::num::ParseIntError;
+
+    fn from_str(s: &amp;str) -&gt; Result&lt;Self, Self::Err&gt; {
+        if let Ok(v) = s.parse() {
+            Ok(Op::Var(v))
+        } else {
+            s.parse().map(|v| Op::Val(v))
+        }
+    }
+}
+
+/// instruction
+#[derive(Debug, PartialEq, Eq)]
+pub enum Inst {
+    Inp(Var),
+    Add(Var, Op),
+    Mul(Var, Op),
+    Div(Var, Op),
+    Mod(Var, Op),
+    Eql(Var, Op),
+}
+
+impl Inst {
+    /// execute instruction
+    pub fn execute(&amp;self, vars: &amp;mut Memory, inputs: &amp;mut impl Iterator&lt;Item = Val&gt;) {
+        match self {
+            Inst::Inp(v1) =&gt; vars[*v1] = inputs.next().expect("No input"),
+            Inst::Add(v1, v2) =&gt; vars[*v1] += v2.eval(vars),
+            Inst::Mul(v1, v2) =&gt; vars[*v1] *= v2.eval(vars),
+            Inst::Div(v1, v2) =&gt; vars[*v1] /= v2.eval(vars),
+            Inst::Mod(v1, v2) =&gt; vars[*v1] = vars[*v1] % v2.eval(vars),
+            Inst::Eql(v1, v2) =&gt; vars[*v1] = (vars[*v1] == v2.eval(vars)) as Val,
+        }
+    }
+}
+
+impl std::str::FromStr for Inst {
+    type Err = Box&lt;dyn std::error::Error&gt;;
+
+    fn from_str(s: &amp;str) -&gt; Result&lt;Self, Self::Err&gt; {
+        let mut parts = s.trim().split(" ");
+
+        let name = parts
+            .next()
+            .ok_or_else(|| format!("'{}' contains no name part", s))?;
+        let first = parts
+            .next()
+            .ok_or_else(|| format!("'{}' contains no first operand", s))?
+            .parse()
+            .map_err(|()| format!("First part of '{}' is not a variable", s))?;
+        let second = parts.next().map_or(Ok(None), |s| s.parse().map(Some))?;
+        let second = || second.ok_or_else(|| format!("'{}' contains no second operand", s));
+
+        match name {
+            "inp" =&gt; Ok(Self::Inp(first)),
+            "add" =&gt; Ok(Self::Add(first, second()?)),
+            "mul" =&gt; Ok(Self::Mul(first, second()?)),
+            "div" =&gt; Ok(Self::Div(first, second()?)),
+            "mod" =&gt; Ok(Self::Mod(first, second()?)),
+            "eql" =&gt; Ok(Self::Eql(first, second()?)),
+            _ =&gt; Err(format!("'{}' is not a valid instruction name", name))?,
+        }
+    }
+}
+
+/// parse lines to instructions
+pub fn parse(content: &amp;str) -&gt; Vec&lt;Inst&gt; {
+    content.lines().map(|line| line.parse().unwrap()).collect()
+}
+
+/// execute instructions
+pub fn execute(instructions: &amp;[Inst], inputs: &amp;[Val]) -&gt; Val {
+    let mut vars = Memory::default();
+    let mut inputs = inputs.iter().copied();
+    for instruction in instructions {
+        instruction.execute(&amp;mut vars, &amp;mut inputs)
+    }
+    vars[Var::Z]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_tests_23"><a class="anchor" href="#_tests_23"></a><a class="link" href="#_tests_23">Tests</a></h5>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const CONTENT: &amp;str = "inp z
+        inp x
+        mul z 3
+        eql z x";
+    const INSTRUCTIONS: &amp;[Inst] = &amp;[
+        Inst::Inp(Var::Z),
+        Inst::Inp(Var::X),
+        Inst::Mul(Var::Z, Op::Val(3)),
+        Inst::Eql(Var::Z, Op::Var(Var::X)),
+    ];
+
+    #[test]
+    fn test_parse() {
+        assert_eq!(INSTRUCTIONS, parse(CONTENT));
+    }
+}</code></pre>
+</div>
+</div>
+<a id="day25" />
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_day_25_rust"><a class="anchor" href="#_day_25_rust"></a><a class="link" href="#_day_25_rust">Day 25: rust</a></h3>
+<div class="sect3">
+<h4 id="_day_25_sea_cucumber"><a class="anchor" href="#_day_25_sea_cucumber"></a><a class="link" href="#_day_25_sea_cucumber">Day 25: Sea Cucumber</a></h4>
+<div class="paragraph">
+<p><a href="https://rust-lang.org">Rust</a> solution to <a href="https://adventofcode.com/2021/day/25">AoC|2021|25</a>.</p>
+</div>
+<div class="paragraph">
+<p>A simple one to conclude this year&#8217;s edition&#8230;&#8203;</p>
+</div>
+<div class="sect4">
+<h5 id="_solution_7"><a class="anchor" href="#_solution_7"></a><a class="link" href="#_solution_7">Solution</a></h5>
+<div class="paragraph">
+<p>Not much to say here. By looking in both, the initial and the updated grid for updating the south facing cucumbers, I avoid creating two copies of the grid in each step. Still ~100ms computation time&#8230;&#8203;</p>
+</div>
+<div class="paragraph">
+<p>Here is my solution:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">pub fn parse(content: &amp;str) -&gt; (Vec&lt;C&gt;, usize) {
+    let w = content.lines().next().expect("No content").trim().len();
+    let grid = content
+        .chars()
+        .filter(|c| !c.is_whitespace())
+        .map(|c| match c {
+            '&gt;' =&gt; 1,
+            'v' =&gt; 2,
+            _ =&gt; 0,
+        })
+        .collect();
+    (grid, w)
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">pub const E: C = 1;
+pub const S: C = 2;
+pub const X: C = 0;
+
+pub fn step(grid: &amp;[C], w: usize) -&gt; Option&lt;Vec&lt;C&gt;&gt; {
+    let mut grid_upd = vec![X; grid.len()];
+    let mut moved = false;
+
+    for k in 0..grid.len() {
+        if grid[k] == E {
+            let k_upd = (k + 1) % w + w * (k / w);
+            if grid[k_upd] == X {
+                grid_upd[k_upd] = E;
+                moved = true;
+            } else {
+                grid_upd[k] = E;
+            }
+        }
+    }
+
+    for k in 0..grid.len() {
+        if grid[k] == S {
+            let k_upd = (k + w) % grid.len();
+            if grid[k_upd] != S &amp;&amp; grid_upd[k_upd] == X {
+                grid_upd[k_upd] = S;
+                moved = true;
+            } else {
+                grid_upd[k] = S;
+            }
+        }
+    }
+
+    if moved {
+        Some(grid_upd)
+    } else {
+        None
+    }
+}
+
+pub fn solution_1(mut grid: Vec&lt;C&gt;, w: usize) -&gt; usize {
+    let mut count = 1;
+    while let Some(upd) = step(&amp;grid, w) {
+        grid = upd;
+        count += 1;
+    }
+    count
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_tests_24"><a class="anchor" href="#_tests_24"></a><a class="link" href="#_tests_24">Tests</a></h5>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-rust" data-lang="rust">#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const CONTENT_00: &amp;str = "v...&gt;&gt;.vv&gt;
+        .vv&gt;&gt;.vv..
+        &gt;&gt;.&gt;v&gt;...v
+        &gt;&gt;v&gt;&gt;.&gt;.v.
+        v&gt;v.vv.v..
+        &gt;.&gt;&gt;..v...
+        .vv..&gt;.&gt;v.
+        v.v..&gt;&gt;v.v
+        ....v..v.&gt;";
+    const CONTENT_01: &amp;str = "....&gt;.&gt;v.&gt;
+        v.v&gt;.&gt;v.v.
+        &gt;v&gt;&gt;..&gt;v..
+        &gt;&gt;v&gt;v&gt;.&gt;.v
+        .&gt;v.v...v.
+        v&gt;&gt;.&gt;vvv..
+        ..v...&gt;&gt;..
+        vv...&gt;&gt;vv.
+        &gt;.v.v..v.v";
+    const CONTENT_10: &amp;str = "..&gt;..&gt;&gt;vv.
+        v.....&gt;&gt;.v
+        ..v.v&gt;&gt;&gt;v&gt;
+        v&gt;.&gt;v.&gt;&gt;&gt;.
+        ..v&gt;v.vv.v
+        .v.&gt;&gt;&gt;.v..
+        v.v..&gt;v&gt;..
+        ..v...&gt;v.&gt;
+        .vv..v&gt;vv.";
+
+    const GRID_00: &amp;[C] = &amp;[
+        S, X, X, X, E, E, X, S, S, E, X, S, S, E, E, X, S, S, X, X, E, E, X, E, S, E, X, X, X, S,
+        E, E, S, E, E, X, E, X, S, X, S, E, S, X, S, S, X, S, X, X, E, X, E, E, X, X, S, X, X, X,
+        X, S, S, X, X, E, X, E, S, X, S, X, S, X, X, E, E, S, X, S, X, X, X, X, S, X, X, S, X, E,
+    ];
+    const W: usize = 10;
+
+    #[test]
+    fn test_parse() {
+        let (grid, w) = parse(CONTENT_00);
+        assert_eq!(W, w);
+        assert_eq!(GRID_00, grid);
+    }
+
+    #[test]
+    fn test_step() {
+        let grid_00 = GRID_00.to_owned();
+        let (grid_01, _) = parse(CONTENT_01);
+        let (grid_10, _) = parse(CONTENT_10);
+
+        assert_eq!(Some(grid_01), step(&amp;grid_00, W));
+
+        let mut grid = grid_00;
+        for _ in 0..10 {
+            grid = step(&amp;grid, W).unwrap();
+        }
+        assert_eq!(grid_10, grid)
+    }
+
+    #[test]
+    fn test_solution_1() {
+        assert_eq!(58, solution_1(GRID_00.to_owned(), W));
     }
 }</code></pre>
 </div>

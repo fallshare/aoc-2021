@@ -313,6 +313,46 @@
 </li>
 </ul>
 </li>
+<li><a href="#_day_19_kotlin">Day 19: kotlin</a>
+<ul class="sectlevel3">
+<li><a href="#_day_19_beacon_scanner">Day 19: Beacon Scanner</a>
+<ul class="sectlevel4">
+<li><a href="#_first_star_17">First Star</a></li>
+<li><a href="#_second_star_17">Second Star</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_day_20_kotlin">Day 20: kotlin</a>
+<ul class="sectlevel3">
+<li><a href="#_day_20_trench_map">Day 20: Trench Map</a>
+<ul class="sectlevel4">
+<li><a href="#_first_star_18">First Star</a></li>
+<li><a href="#_second_star_18">Second Star</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_day_21_kotlin">Day 21: kotlin</a>
+<ul class="sectlevel3">
+<li><a href="#_day_21_dirac_dice">Day 21: Dirac Dice</a>
+<ul class="sectlevel4">
+<li><a href="#_first_star_19">First Star</a></li>
+<li><a href="#_second_star_19">Second Star</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_day_25_kotlin">Day 25: kotlin</a>
+<ul class="sectlevel3">
+<li><a href="#_day_25_sea_cucumber">Day 25: Sea Cucumber</a>
+<ul class="sectlevel4">
+<li><a href="#_first_star_20">First Star</a></li>
+<li><a href="#_second_star_20">Second Star</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -2716,6 +2756,800 @@ solution1 = snailFishNumber[0]</code></pre>
 	println("   $solution2 ")
 	println()</code></pre>
 </div>
+</div>
+<a id="day19" />
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_day_19_kotlin"><a class="anchor" href="#_day_19_kotlin"></a><a class="link" href="#_day_19_kotlin">Day 19: kotlin</a></h3>
+<div class="sect3">
+<h4 id="_day_19_beacon_scanner"><a class="anchor" href="#_day_19_beacon_scanner"></a><a class="link" href="#_day_19_beacon_scanner">Day 19: Beacon Scanner</a></h4>
+<div class="paragraph">
+<p>This solution is written in Kotlin.</p>
+</div>
+<div class="paragraph">
+<p>The original puzzle can be found at <a href="https://adventofcode.com/2021/day/19" class="bare">https://adventofcode.com/2021/day/19</a></p>
+</div>
+<div class="paragraph">
+<p>For execution enter <em>kotlin day2119_1_2.kts</em> in the command line.</p>
+</div>
+<div class="paragraph">
+<p>For the solution of this puzzle at first I created a class which holds for each scan the scanner id, the position of the scanner (which are at the beginning only placeholders) and the raw data. There are three functions for this class, one to flip and rotate the raw data in the 24 different views, one to adapt an offset to the data, and a function to set the position after it is caluclated. The class is implemented with a lot of copy-paste-modify for the flip/rot operations, which are not very elegant, but at the end it worked and I have already put to much time into it. If you are really interested, you can find the code in the repository.</p>
+</div>
+<div class="paragraph">
+<p>The puzzle input is read and the scans are put into an object of the above described class and put into a list <em>allScans</em>. The first one is already move out into a second list _matchedScans with position of the scanner set to (0,0,0).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-kotlin" data-lang="kotlin">	// setup for reading puzzle input
+	var scanInput = mutableListOf&lt;Triple&lt;Int, Int, Int&gt;&gt;()
+	var allScans = mutableListOf&lt;scanX&gt;()
+	var scanID: String = ""
+
+	// read all scans of puzzle input into scanX classes and add them to a list of unmathced scans (allScans)
+	File("day2119_puzzle_input.txt").forEachLine {
+		if (it.contains("--")) {
+			scanInput.clear()
+			scanID = it.drop(4).dropLast(4).replace(" ", "-")
+		} else if (it.length &gt; 1) {
+			var position = it.split(",")
+			scanInput.add(
+				Triple(
+					position[0].toString().toInt(),
+					position[1].toString().toInt(),
+					position[2].toString().toInt()
+				)
+			)
+		} else {
+			//println(scanInput.sortedWith(compareBy({ it.first }, { it.second }, { it.third }))):  not necessary, does not bring any benefit
+			allScans.add(scanX(scanInput.toList(), scanID))
+		}
+	}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now for all remaining objects out of <em>allScans</em> an element is picked and a second loop is nested to flip and rotate it in all directions. With each result, all beacons of last <em>matchedSans</em> objects are compared with <em>allScans</em>. Therefore over all beacons the offset necessary to match a single beacons is caluclated and the complete dataset of the object is shifted. If then there are 12 or more matches, the object is moved into <em>matchedScans</em> and removed out of <em>allScans</em>. At this time already also the absolut position of the new matched object is determined and stored.</p>
+</div>
+<div class="paragraph">
+<p>At the end the list <em>matchedScans</em> contains all scans flipped and rotated in the right position with their absolute position stored.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-kotlin" data-lang="kotlin">	// initialize list with matched scans (matchedScans) with first element of allScans list
+	var matchedScans = mutableListOf&lt;scanX&gt;()
+	matchedScans.add(allScans[0])
+	matchedScans[0].flipRotate(0)
+	matchedScans[0].scanPosX = 0
+	matchedScans[0].scanPosY = 0
+	matchedScans[0].scanPosY = 0
+
+	allScans.removeAt(0)
+
+	// allScans contains the unmatched scans, if a match is detected the object will be moved to matchedScans
+	// so if allScans is empty, no scan to match is left, job done
+	var matchList = mutableListOf&lt;Int&gt;()
+	var mm: Int = 0
+
+	while (allScans.isNotEmpty()) {
+
+		for (m in 0..allScans.size - 1) {
+
+			Loop@ for (ii in 0..23) {
+
+				allScans[m].flipRotate(ii)
+
+				for (j in 0..matchedScans[mm].beaconsFlipRot.size - 1) {
+
+					var beacon1 = matchedScans[mm].beaconsFlipRot[j]
+
+					for (i in 0..allScans[m].beaconsFlipRot.size - 1) {
+
+						var beacon2 = allScans[m].beaconsFlipRot[i]
+						var beacon2Raw = allScans[m].beacons[i]
+
+						var x_off = beacon1.first - beacon2.first
+						var y_off = beacon1.second - beacon2.second
+						var z_off = beacon1.third - beacon2.third
+
+						allScans[m].shiftByOffset(x_off, y_off, z_off)
+
+						if (matchedScans[mm].beaconsFlipRot.intersect(allScans[m].beaconsFlipRot).size &gt; 11) {
+
+							// this is the right place to set positions of scans:
+							// beacon1 is used as first input. beacon2 is already shifted and transformed, so we need var beacon2Raw = allScans[m].beacons[i]
+							allScans[m].setPosition(beacon1, beacon2Raw, ii)
+
+							// shift allScan into matchedScan
+							matchedScans.add(allScans[m])
+							matchList.add(m)
+							break@Loop
+						}
+					}
+				}
+			}
+		}
+
+		// this is used to know which objects out of allScans where transfered into matchedScans and therefor can be deleted
+		matchList.sortDescending()
+		matchList.forEach {
+			allScans.removeAt(it)
+		}
+		matchList.clear()
+
+		mm += 1
+	}</code></pre>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_first_star_17"><a class="anchor" href="#_first_star_17"></a><a class="link" href="#_first_star_17">First Star</a></h5>
+<div class="paragraph">
+<p>How does it work:<br></p>
+</div>
+<div class="paragraph">
+<p>For the first star, all beacons out ouf all scans of <em>matchesScans</em> are stored in a new list without dublicates. The size of the list is result of part 1</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-kotlin" data-lang="kotlin">	// for part1 print all beacons in a list without dublicates and count
+	var beaconsList = mutableListOf&lt;Triple&lt;Int, Int, Int&gt;&gt;()
+
+	matchedScans.forEach {
+		it.beaconsFlipRot.forEach {
+			if (!beaconsList.contains(it)) {
+				beaconsList.add(it)
+			}
+		}
+	}
+
+	solution1 = beaconsList.size
+	// end::part1[]
+
+	// for part2 iterate through absolute coordinates of all Scans and calculate manhatten distance
+	var manhattenDistMax: Int  = 0
+	var manhattenDist: Int = 0
+
+	for (i in 0..matchedScans.size-1) {
+		for( j in 0..matchedScans.size-1) {
+			if (i!=j) {
+				manhattenDist = abs(matchedScans[i].scanPosX - matchedScans[j].scanPosX)
+				manhattenDist = manhattenDist + abs(matchedScans[i].scanPosY - matchedScans[j].scanPosY)
+				manhattenDist = manhattenDist + abs(matchedScans[i].scanPosZ - matchedScans[j].scanPosZ)
+
+				if (manhattenDist &gt; manhattenDistMax) {
+					manhattenDistMax = manhattenDist
+				}
+			}
+		}
+	}
+
+	solution2 = manhattenDistMax
+
+	// print solution for part 1
+	println("******************************")
+	println("--- Day 19: Beacon Scanner ---")
+	println("******************************")
+	println("Solution for part1")
+	println("   $solution1 beacons are there")
+	println()
+	// print solution for part 2
+	println("******************************")
+	println("Solution for part2")
+	println("   $solution2 is the largest Manhattan distance between any two scanners")
+	println()
+	t1 = System.currentTimeMillis() - t1
+	println("puzzle solved in ${t1} ms")
+//}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_second_star_17"><a class="anchor" href="#_second_star_17"></a><a class="link" href="#_second_star_17">Second Star</a></h5>
+<div class="paragraph">
+<p>How does it work:<br></p>
+</div>
+<div class="paragraph">
+<p>For the second star all positions out of all objects in <em>matchedScans</em> are compared to each other by calculating the manhatten distance. The max value is solution for part 2</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-kotlin" data-lang="kotlin">	// for part2 iterate through absolute coordinates of all Scans and calculate manhatten distance
+	var manhattenDistMax: Int  = 0
+	var manhattenDist: Int = 0
+
+	for (i in 0..matchedScans.size-1) {
+		for( j in 0..matchedScans.size-1) {
+			if (i!=j) {
+				manhattenDist = abs(matchedScans[i].scanPosX - matchedScans[j].scanPosX)
+				manhattenDist = manhattenDist + abs(matchedScans[i].scanPosY - matchedScans[j].scanPosY)
+				manhattenDist = manhattenDist + abs(matchedScans[i].scanPosZ - matchedScans[j].scanPosZ)
+
+				if (manhattenDist &gt; manhattenDistMax) {
+					manhattenDistMax = manhattenDist
+				}
+			}
+		}
+	}
+
+	solution2 = manhattenDistMax</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>At the end, both solutions are printed out. Be patient, it takes around 20 seconds.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-kotlin" data-lang="kotlin">	// print solution for part 1
+	println("******************************")
+	println("--- Day 19: Beacon Scanner ---")
+	println("******************************")
+	println("Solution for part1")
+	println("   $solution1 beacons are there")
+	println()
+	// print solution for part 2
+	println("******************************")
+	println("Solution for part2")
+	println("   $solution2 is the largest Manhattan distance between any two scanners")
+	println()
+	t1 = System.currentTimeMillis() - t1
+	println("puzzle solved in ${t1} ms")</code></pre>
+</div>
+</div>
+<a id="day20" />
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_day_20_kotlin"><a class="anchor" href="#_day_20_kotlin"></a><a class="link" href="#_day_20_kotlin">Day 20: kotlin</a></h3>
+<div class="sect3">
+<h4 id="_day_20_trench_map"><a class="anchor" href="#_day_20_trench_map"></a><a class="link" href="#_day_20_trench_map">Day 20: Trench Map</a></h4>
+<div class="paragraph">
+<p>This solution is written in Kotlin.</p>
+</div>
+<div class="paragraph">
+<p>The original puzzle can be found at <a href="https://adventofcode.com/2021/day/20" class="bare">https://adventofcode.com/2021/day/20</a></p>
+</div>
+<div class="paragraph">
+<p>For execution enter <em>kotlin day2120_1_2.kts</em> in the command line.</p>
+</div>
+<div class="sect4">
+<h5 id="_first_star_18"><a class="anchor" href="#_first_star_18"></a><a class="link" href="#_first_star_18">First Star</a></h5>
+<div class="paragraph">
+<p>How does it work:<br></p>
+</div>
+<div class="paragraph">
+<p>First of all puzzle input is read into <em>enhAlg</em> string for the ruleset and <em>inputImage</em> map for the first image</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-kotlin" data-lang="kotlin">	var width: Int = 0
+	var height: Int = 0
+
+	var enhAlg: String = ""
+
+	var inputImage = mutableMapOf&lt;Pair&lt;Int, Int&gt;, Int&gt;()
+
+
+	File("day2120_puzzle_input.txt").forEachLine {
+		if (it.length == 512) {
+			enhAlg = it
+		} else if (it.length != 0) {
+			width = it.length
+			for (x in 0..it.length - 1) {
+				var light: Int
+				if (it[x].toString() == ".") {
+					light = 0
+				} else {
+					light = 1
+				}
+				inputImage.put(Pair(x, height), light)
+			}
+			height = height + 1
+		}
+	}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After reading puzzle input, the enhancement algorithm is applied n times. After each time the lights which are on are conunted and at n == 2 solution for part 1 is available.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-kotlin" data-lang="kotlin">	var outputImage = mutableMapOf&lt;Pair&lt;Int, Int&gt;, Int&gt;()
+
+	for (n in 1..50) {
+		// iterate over input
+		var numLights = 0
+		for (y in 0 - 5 - n..height - 1 + n + 5) {
+			for (x in 0 - 5 - n..width - 1 + n + 5) {
+
+				var xpos = x
+				var ypos = y
+				var index: String = ""
+
+				// find index for each tile
+				for (yy in ypos - 1..ypos + 1) {
+					for (xx in xpos - 1..xpos + 1) {
+						if (inputImage.containsKey(Pair(xx, yy))) {
+							index = index + inputImage.getValue(Pair(xx, yy)).toString()
+						} else {
+							if (n % 2 == 0) {
+								index = index + "1"
+							} else {
+								index = index + "0"
+							}
+						}
+					}
+				}
+
+				// get value out of enhancedment algorithm and put Value in outputImage
+				if (enhAlg[index.toInt(2)] == '#') {
+					outputImage.put(Pair(x, y), 1)
+					numLights = numLights + 1
+					if (n == 2) {
+						solution1 = numLights
+					} else if (n == 50) {
+						solution2 = numLights
+					}
+				} else {
+					outputImage.put(Pair(x, y), 0)
+				}
+			}
+		}
+
+		inputImage.clear()
+		inputImage.putAll(outputImage)
+		outputImage.clear()
+	}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_second_star_18"><a class="anchor" href="#_second_star_18"></a><a class="link" href="#_second_star_18">Second Star</a></h5>
+<div class="paragraph">
+<p>How does it work:<br></p>
+</div>
+<div class="paragraph">
+<p>Just continue after n == 2 of part 1 until n reachd 50, then the counted lights are solution for part 2</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-kotlin" data-lang="kotlin">	var outputImage = mutableMapOf&lt;Pair&lt;Int, Int&gt;, Int&gt;()
+
+	for (n in 1..50) {
+		// iterate over input
+		var numLights = 0
+		for (y in 0 - 5 - n..height - 1 + n + 5) {
+			for (x in 0 - 5 - n..width - 1 + n + 5) {
+
+				var xpos = x
+				var ypos = y
+				var index: String = ""
+
+				// find index for each tile
+				for (yy in ypos - 1..ypos + 1) {
+					for (xx in xpos - 1..xpos + 1) {
+						if (inputImage.containsKey(Pair(xx, yy))) {
+							index = index + inputImage.getValue(Pair(xx, yy)).toString()
+						} else {
+							if (n % 2 == 0) {
+								index = index + "1"
+							} else {
+								index = index + "0"
+							}
+						}
+					}
+				}
+
+				// get value out of enhancedment algorithm and put Value in outputImage
+				if (enhAlg[index.toInt(2)] == '#') {
+					outputImage.put(Pair(x, y), 1)
+					numLights = numLights + 1
+					if (n == 2) {
+						solution1 = numLights
+					} else if (n == 50) {
+						solution2 = numLights
+					}
+				} else {
+					outputImage.put(Pair(x, y), 0)
+				}
+			}
+		}
+
+		inputImage.clear()
+		inputImage.putAll(outputImage)
+		outputImage.clear()
+	}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>At the end, both solutions are printed out.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-kotlin" data-lang="kotlin">	// print solution for part 1
+	println("**************************")
+	println("--- Day 20: Trench Map ---")
+	println("**************************")
+	println("Solution for part1")
+	println("   $solution1 pixels are lit in the resulting image")
+	println()
+	// print solution for part 2
+	println("**************************")
+	println("Solution for part2")
+	println("   $solution2 pixels are lit in the resulting image")
+	println()</code></pre>
+</div>
+</div>
+<a id="day21" />
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_day_21_kotlin"><a class="anchor" href="#_day_21_kotlin"></a><a class="link" href="#_day_21_kotlin">Day 21: kotlin</a></h3>
+<div class="sect3">
+<h4 id="_day_21_dirac_dice"><a class="anchor" href="#_day_21_dirac_dice"></a><a class="link" href="#_day_21_dirac_dice">Day 21: Dirac Dice</a></h4>
+<div class="paragraph">
+<p>This solution is written in Kotlin.</p>
+</div>
+<div class="paragraph">
+<p>The original puzzle can be found at <a href="https://adventofcode.com/2021/day/21" class="bare">https://adventofcode.com/2021/day/21</a></p>
+</div>
+<div class="paragraph">
+<p>For execution enter <em>kotlin day2121_1_2.kts</em> in the command line.</p>
+</div>
+<div class="sect4">
+<h5 id="_first_star_19"><a class="anchor" href="#_first_star_19"></a><a class="link" href="#_first_star_19">First Star</a></h5>
+<div class="paragraph">
+<p>How does it work:<br></p>
+</div>
+<div class="paragraph">
+<p>First the puzzle input is read into variables for further proceeding.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-kotlin" data-lang="kotlin">	var startingSpace = mutableListOf&lt;Int&gt;()
+
+	File("day2121_puzzle_input.txt").forEachLine {
+		startingSpace.add(it.takeLast(1).toString().toInt())
+	}
+
+	var play1 = startingSpace[0]
+	var play2 = startingSpace[1]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>All the calculations are placed into a function, which is called from the main part with the puzzle input:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-kotlin" data-lang="kotlin">	var solution1 = standardDice(play1, play2)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Inside the function the game and the rules are implemented and if one player wins, the result of player&#8217;s score multiplied by number of dices thrown is returned:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-kotlin" data-lang="kotlin">fun standardDice(in1: Int, in2: Int): Int {
+	var play1 = in1
+	var play2 = in2
+	var play1Score: Int = 0
+	var play2Score: Int = 0
+	var dice: Int = 1
+	var diceCount = 0
+
+	while (play1Score &lt; 1000 &amp;&amp; play2Score &lt; 1000) {
+		// three turns player 1
+		for (i in 0..2) {
+			play1 = ((play1 + dice - 1) % 10) + 1
+			dice = (dice) % 100 + 1
+		}
+		diceCount += 3
+		play1Score = play1Score + play1
+		if (play1Score &gt;= 1000) {
+			return (play2Score * diceCount)
+		}
+		// three turns player 2
+		for (i in 0..2) {
+			play2 = (play2 + dice - 1) % 10 + 1
+			dice = (dice) % 100 + 1
+		}
+		diceCount += 3
+		play2Score = play2Score + play2
+		if (play2Score &gt;= 1000) {
+			return (play1Score * diceCount)
+		}
+	}
+	return 1
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_second_star_19"><a class="anchor" href="#_second_star_19"></a><a class="link" href="#_second_star_19">Second Star</a></h5>
+<div class="paragraph">
+<p>How does it work:<br></p>
+</div>
+<div class="paragraph">
+<p>Here the same puzzle input is used, but for calculation of the result some modifications are necessary. The spedification now asks not for a standardized row of dice
+results, but for a variant tree, starting with (1),(2),(3) and then (1,1),(1,2),(1,3),(2,1)&#8230;&#8203;.  Every round of throwing dices you multiply the input vector by 3 -&#8594;
+3, 9, 27, 81, 243&#8230;&#8203; .  Each player has it&#8217;s turn only after 3 times throwing the dices, so you can combine any combination of (1,2,3) to one throw with value 3-9.
+Each value has a number out of which dice combinations it could be reached, which is stored in a map and used to calculate the number of games following that path.</p>
+</div>
+<div class="paragraph">
+<p>This reduction was not enough, the only idea I had was to split the calculation into separte ones and to add up the result, this is done in the main part, where already
+some of the staring vectors of dices are created, and then it is continued until payer one or two wins, or game ends without win, then new vectors are created with a
+range of 3 to 9 added to the input vector.</p>
+</div>
+<div class="paragraph">
+<p>Tryouts have shown, that for beeing able to reach the end, the starting vector has at least to be filled with the first two values.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-kotlin" data-lang="kotlin">	var play1Wins: Long = 0
+	var play2Wins: Long = 0
+
+	var diceVarOverall = MutableList(0) { mutableListOf&lt;Int&gt;() }
+	var diceVarOverallNew = MutableList(0) { mutableListOf&lt;Int&gt;() }
+	var diceVariation = mutableListOf&lt;Int&gt;()
+
+	for (ii in 3..9) {
+		for (iii in 3..9) {
+			diceVariation.add(ii)
+			diceVariation.add(iii)
+			diceVarOverall.add(diceVariation.toMutableList())
+			diceVariation.clear()
+
+			println("-----------------")
+			println("-- next turn   --")
+			println("-----------------")
+			print("   diceVarOverall: ")
+			println(diceVarOverall)
+
+			while (diceVarOverall.isNotEmpty()) {
+
+				diceVarOverall.forEach {
+					var result = diracDice(play1, play2, it)
+					if (result.first == 1) {
+						play1Wins = play1Wins + result.second
+					} else if (result.first == 2) {
+						play2Wins = play2Wins + result.second
+					} else if (result.first == 0) {
+						for (i in 3..9) {
+							var diceVariationNew = it.toMutableList()
+							diceVariationNew.add(i)
+							diceVarOverallNew.add(diceVariationNew.toMutableList())
+							//	diceVariationNew.clear()
+						}
+					}
+
+				}
+				diceVarOverall.clear()
+				diceVarOverall.addAll(diceVarOverallNew)
+				diceVarOverallNew.clear()
+
+			} // end While (diceVarOverall.isNotEmpty())
+			println()
+		}
+	}
+
+	var solution2 = maxOf(play1Wins, play2Wins)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With these starting vectors the function <em>diracDice</em> is started, if one player wins, the number of different worlds is calculated and summed up, if now player wins, the main
+algorithm will add nine new input vectors to the list for next run.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-kotlin" data-lang="kotlin">fun diracDice(in1: Int, in2: Int, in3: List&lt;Int&gt;): Pair&lt;Int, Long&gt; {
+	var play1 = in1
+	var play2 = in2
+	var play1Score: Int = 0
+	var play2Score: Int = 0
+	var dice = in3
+	var diceCount = 0
+	var numOfVars: Long = 1
+	var mapTable = mutableMapOf&lt;Int, Int&gt;()
+	mapTable.put(3, 1)
+	mapTable.put(4, 3)
+	mapTable.put(5, 6)
+	mapTable.put(6, 7)
+	mapTable.put(7, 6)
+	mapTable.put(8, 3)
+	mapTable.put(9, 1)
+
+	var i: Int = 0
+	while (true) {
+		play1 = ((play1 + dice[i] - 1) % 10) + 1
+		numOfVars = numOfVars * mapTable.getValue(dice[i])
+		i += 1
+		diceCount += 3
+		play1Score = play1Score + play1
+
+		if (play1Score &gt;= 21) {
+			return Pair(1, numOfVars)
+		} else if (i &gt; dice.size - 1) {
+			return Pair(0, 0)
+		}
+		play2 = (play2 + dice[i] - 1) % 10 + 1
+		numOfVars = numOfVars * mapTable.getValue(dice[i])
+		i += 1
+		diceCount += 3
+		play2Score = play2Score + play2
+		if (play2Score &gt;= 21) {
+			return Pair(2, numOfVars)
+		} else if (i &gt; dice.size - 1) {
+			return Pair(0, 0)
+		}
+	}
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>At the end, both solutions are printed out.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-kotlin" data-lang="kotlin">	// print solution for part 1
+	println("*******************************")
+	println("--- Day 21: Dirac Dice ---")
+	println("*******************************")
+	println("Solution for part1")
+	println("   $solution1 you get if you multiply the score of the losing player by the number of times the die was rolled during the game")
+	println()
+	// print solution for part 2
+	println("*******************************")
+	println("Solution for part2")
+	println("   $solution2 are the most wins in all universes")
+	println()</code></pre>
+</div>
+</div>
+<a id="day25" />
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_day_25_kotlin"><a class="anchor" href="#_day_25_kotlin"></a><a class="link" href="#_day_25_kotlin">Day 25: kotlin</a></h3>
+<div class="sect3">
+<h4 id="_day_25_sea_cucumber"><a class="anchor" href="#_day_25_sea_cucumber"></a><a class="link" href="#_day_25_sea_cucumber">Day 25: Sea Cucumber</a></h4>
+<div class="paragraph">
+<p>This solution is written in Kotlin.</p>
+</div>
+<div class="paragraph">
+<p>The original puzzle can be found at <a href="https://adventofcode.com/2021/day/25" class="bare">https://adventofcode.com/2021/day/25</a></p>
+</div>
+<div class="paragraph">
+<p>For execution enter <em>kotlin day2125_1.kts</em> in the command line.</p>
+</div>
+<div class="sect4">
+<h5 id="_first_star_20"><a class="anchor" href="#_first_star_20"></a><a class="link" href="#_first_star_20">First Star</a></h5>
+<div class="paragraph">
+<p>How does it work:<br></p>
+</div>
+<div class="paragraph">
+<p>Puzzle input is read into a map with coordinates as key and cucumbers or free spaces as value. Within a while loop first the cucumbers facing east are considered moving, than the cucumbers facing south. As long as any cucumber has moved, the loop continues.</p>
+</div>
+<div class="paragraph">
+<p>After no cucumber moves any more, the number of steps is printed out as solution.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight linenums"><code class="language-kotlin" data-lang="kotlin">import java.io.File
+
+//fun main(args: Array&lt;String&gt;) {
+	var solution1: Int
+	var width: Int = 0
+	var depth: Int = 0
+	var ground = mutableMapOf&lt;Pair&lt;Int, Int&gt;, String&gt;()
+
+	File("day2125_puzzle_input.txt").forEachLine {
+
+		width = 0
+		it.forEach {
+			ground.put(Pair(width, depth), it.toString())
+			width += 1
+		}
+		depth += 1
+	}
+
+	// initial state
+/*	println("Inital state:")
+	for (y in 0..depth - 1) {
+		for (x in 0..width - 1) {
+			print(ground.getValue(Pair(x, y)))
+		}
+		println()
+	}
+	println() */
+
+	// start moves
+	var n: Int = 0
+	var groundNew = mutableMapOf&lt;Pair&lt;Int, Int&gt;, String&gt;()
+	var moveEnd: Boolean = false
+
+	while (!moveEnd) {  // move loop
+		n += 1
+		moveEnd = true
+
+		// move east
+		// prepare groundNew
+		for (y in 0..depth - 1) {
+			for (x in 0..width - 1) {
+				groundNew.put(Pair(x, y), ground.getValue(Pair(x, y)))
+			}
+		}
+		// move where possible
+		for (y in 0..depth - 1) {
+			for (x in 0..width - 1) {
+				if (ground.getValue(Pair(x % width, y)).contains("&gt;")) {
+					if (ground.getValue(Pair((x + 1) % width, y)).contains(".")) {
+						groundNew.put(Pair((x + 1) % width, y), "&gt;")
+						groundNew.put(Pair((x) % width, y), ".")
+						moveEnd = false
+					}
+				}
+			}
+		}
+		ground.clear()
+		ground.putAll(groundNew)
+		groundNew.clear()
+
+		// move west
+		// prepare groundNew
+		for (y in 0..depth - 1) {
+			for (x in 0..width - 1) {
+				groundNew.put(Pair(x, y), ground.getValue(Pair(x, y)))
+			}
+		}
+		// move where possible
+		for (y in 0..depth - 1) {
+			for (x in 0..width - 1) {
+				if (ground.getValue(Pair(x, y % depth)).contains("v")) {
+					if (ground.getValue(Pair(x, (y + 1) % depth)).contains(".")) {
+						groundNew.put(Pair(x, (y + 1) % depth), "v")
+						groundNew.put(Pair(x, y % depth), ".")
+						moveEnd = false
+					}
+				}
+			}
+		}
+		ground.clear()
+		ground.putAll(groundNew)
+		groundNew.clear()
+
+		// n-th state
+/*		println("After $n step:")
+		for (y in 0..depth - 1) {
+			for (x in 0..width - 1) {
+				print(ground.getValue(Pair(x, y)))
+			}
+			println()
+		}
+		println() */
+
+	} // move loop
+
+	solution1 = n
+
+
+	// print solution for part 1
+	println("****************************")
+	println("--- Day 25: Sea Cucumber ---")
+	println("****************************")
+	println("Solution for part1")
+	println("   $solution1 is the first step on which no sea cucumbers move")
+//}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_second_star_20"><a class="anchor" href="#_second_star_20"></a><a class="link" href="#_second_star_20">Second Star</a></h5>
+<div class="paragraph">
+<p>How does it work:<br></p>
+</div>
+<div class="paragraph">
+<p>Collect all stars, up to now (25.12.2021, 10:44 CET) I am still missing some of the puzzles :-(</p>
 </div>
 </div>
 </div>
