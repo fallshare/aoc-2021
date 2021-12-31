@@ -212,6 +212,16 @@
 </li>
 </ul>
 </li>
+<li><a href="#_day_09_python">Day 09: python</a>
+<ul class="sectlevel3">
+<li><a href="#_python_10">Python</a>
+<ul class="sectlevel4">
+<li><a href="#_star_1_6">Star 1</a></li>
+<li><a href="#_star_2_3">Star 2</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1039,6 +1049,58 @@ for line in file1:
 
 
 print(f"Star 2: Total sum is {output_value_sum}")</code></pre>
+</div>
+</div>
+<a id="day09" />
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_day_09_python"><a class="anchor" href="#_day_09_python"></a><a class="link" href="#_day_09_python">Day 09: python</a></h3>
+<div class="paragraph">
+<p>Advent of Code 2021</p>
+</div>
+<div class="sect3">
+<h4 id="_python_10"><a class="anchor" href="#_python_10"></a><a class="link" href="#_python_10">Python</a></h4>
+<div class="sect4">
+<h5 id="_star_1_6"><a class="anchor" href="#_star_1_6"></a><a class="link" href="#_star_1_6">Star 1</a></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_star_2_3"><a class="anchor" href="#_star_2_3"></a><a class="link" href="#_star_2_3">Star 2</a></h5>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-python" data-lang="python">file1 = open('input.txt', 'r')
+
+heat_map = list()
+
+for line in file1:
+    x_coordinates = list(line.strip())
+    heat_map.append(list(map(int, x_coordinates)))
+
+risk_level_sum = 0
+for y in range(len(heat_map)):
+    for x in range(len(heat_map[0])):
+        #print(f"x:{x} , y:{y}, value: {heat_map[y][x]}")
+        smallest_number = True
+        #hoch
+        if (x &gt; 0) and (heat_map[y][x] &gt;= heat_map[y][x - 1]):
+            smallest_number = False
+        #runter
+        if (x &lt; (len(heat_map[0])-1)) and (heat_map[y][x] &gt;= heat_map[y][x + 1]):
+            smallest_number = False
+        #links
+        if (y &gt; 0) and (heat_map[y][x] &gt;= heat_map[y - 1][x]):
+            smallest_number = False
+        #rechts
+        if (y &lt; (len(heat_map)-1)) and (heat_map[y][x] &gt;= heat_map[y + 1][x]):
+            smallest_number = False
+
+        if smallest_number:
+            print(f"Low point found at: {x}-{y}")
+            risk_level_sum += (heat_map[y][x] + 1)
+
+print(f"Star 1: Risk lebel sum: {risk_level_sum}")</code></pre>
 </div>
 </div>
 </div>
